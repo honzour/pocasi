@@ -7,7 +7,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.IntStream;
+import cz.honza.pocasi.matematika.Regrese;
+import cz.honza.pocasi.matematika.rozdeleni.Normal;
 
 public class Main {
 
@@ -21,29 +22,7 @@ public class Main {
 	private static final double GLOBAL_WARMING = 0.06; 
 	
 	
-	private static double linearniRegrese(List<Double> data) {
-		if (data == null || data.isEmpty()) {
-			throw new IllegalArgumentException();
-		}
-		final int n = data.size(); 
-		
-		if (n == 1) {
-			return 0.0;
-		}
-		final double A = n * IntStream.range(0, n)
-				.mapToDouble(i -> i * data.get(i))
-	            .sum();
-		
-		double B = IntStream.range(0, n).mapToDouble(i -> i).sum() 
-				* IntStream.range(0, n).mapToDouble(i -> data.get(i)).sum();
-		double C = n * IntStream.range(0, n).mapToDouble(i -> i * i).sum();
-		double D = Math.pow(IntStream.range(0, n).mapToDouble(i -> i).sum(), 2);
-		
-		
-		return (A - B) / (C - D);
-	}
 	
-
 	public static void main(String[] args) {
 		
 		
@@ -135,7 +114,7 @@ public class Main {
 		    }
 		    final double var = sum / values.size();
 		    System.out.println("var = " + var);
-		    final double probability = normalCDF(TRESHOLD, E, var);
+		    final double probability = Normal.normalCDF(TRESHOLD, E, var);
 	        System.out.println("P(X < " + TRESHOLD + ") = " + probability);
 	        System.out.println("LT kurs " + 1 / probability);
 	        System.out.println("GE kurs " + 1 / (1 - probability));
@@ -147,7 +126,7 @@ public class Main {
 	        	avg.add(yd.stream().mapToDouble(i -> i).average().getAsDouble());
 	        }
 	        System.out.println("Teploty = " + avg);
-	        double globalWarming = linearniRegrese(avg);
+	        double globalWarming = Regrese.linearniRegrese(avg);
 	        System.out.println("Globalni oteplovani = " + globalWarming);
 		    
 		} catch (Exception e) {
@@ -157,27 +136,6 @@ public class Main {
 		
 	}
 	
-	private static double normalCDF(double x, double mean, double variance) {
-		final double stdDev = Math.sqrt(variance);
-		final double z = (x - mean) / stdDev;
-        return 0.5 * (1 + erf(z / Math.sqrt(2)));
-    }
-
-    private static double erf(double z) {
-        // Přesná implementace chybové funkce (Gaussova aproximace)
-    	final double t = 1.0 / (1.0 + 0.5 * Math.abs(z));
-    	final double tau = t * Math.exp(-z * z - 1.26551223 +
-                t * (1.00002368 +
-                        t * (0.37409196 +
-                                t * (0.09678418 +
-                                        t * (-0.18628806 +
-                                                t * (0.27886807 +
-                                                        t * (-1.13520398 +
-                                                                t * (1.48851587 +
-                                                                        t * (-0.82215223 +
-                                                                                t * 0.17087277)))))))));
-        return z >= 0 ? (1 - tau) : (tau - 1);
-    }
 
 	private static int maxDaysOfMonth(int year, int month) {
 		if (month == 0) {
