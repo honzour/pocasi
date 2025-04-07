@@ -15,7 +15,7 @@ import cz.honza.pocasi.matematika.rozdeleni.Normal;
 public class Main {
 
 	private static final double TRESHOLD = 19.5;
-	private static final String FILE = "C:\\users\\honza\\P1PRUZ01_TMA_N.csv";
+	private static final String FILE = "/home/honza/teplota/P1PRUZ01_TMA_N.csv";
 	private static final int YEAR = 2025;
 	private static final int YEAR_START = 2016;
 	private static final int DAY = 1;
@@ -117,7 +117,7 @@ public class Main {
 	    System.out.println("Teploty = " + avg);
 	    double globalWarming = Regrese.linearniRegrese(avg);
 	    System.out.println("Globalni oteplovani = " + globalWarming);
-		
+	    System.out.println(Utils.dayIndexInYear(2025, 2, 1));		
 	}
 	
 	
