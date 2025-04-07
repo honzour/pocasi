@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import cz.honza.pocasi.io.DataReader;
 import cz.honza.pocasi.io.Radek;
@@ -14,7 +15,7 @@ import cz.honza.pocasi.matematika.rozdeleni.Normal;
 public class Main {
 
 	private static final double TRESHOLD = 19.5;
-	private static final String FILE = "/home/honza/teplota/P1PRUZ01_TMA_N.csv";
+	private static final String FILE = "C:\\users\\honza\\P1PRUZ01_TMA_N.csv";
 	private static final int YEAR = 2025;
 	private static final int YEAR_START = 2016;
 	private static final int DAY = 1;
@@ -107,7 +108,7 @@ public class Main {
 	    System.out.println("LT kurs " + 1 / probability);
 	    System.out.println("GE kurs " + 1 / (1 - probability));
 	        
-	    final List<Integer> years = avgData.keySet().stream().sorted().toList();
+	    final List<Integer> years = avgData.keySet().stream().sorted().collect(Collectors.toList());
 	    final List<Double> avg = new ArrayList<Double>();
 	    for (Integer y : years) {
 	      	List<Double> yd = avgData.get(y);
