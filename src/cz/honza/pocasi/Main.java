@@ -15,7 +15,6 @@ import cz.honza.pocasi.matematika.rozdeleni.Normal;
 public class Main {
 
 	private static final double TRESHOLD = 19.5;
-	private static final String FILE = "/home/honza/teplota/P1PRUZ01_TMA_N.csv";
 	private static final int YEAR = 2025;
 	private static final int YEAR_START = 2016;
 	private static final int DAY = 1;
@@ -26,8 +25,17 @@ public class Main {
 	
 	
 	public static void main(String[] args) {
+		if (args.length < 1) {
+			System.out.println("java pocasi soubor.csv");
+			return;
+		}
 		
-		final List<Radek> data = DataReader.read(FILE);
+		final List<Radek> data = DataReader.read(args[0]);
+		
+		if (data == null) {
+			System.out.println("Nedaří se naparsovat soubor");
+			return;
+		}
 		
 		    
 	    int lt = 0;

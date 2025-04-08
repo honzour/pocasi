@@ -46,7 +46,7 @@ public class Utils {
 			brezen = 31 + 28 - 1;
 		}
 		
-		
+				
 		
 		switch (month) {
 		case 1: return day - 1;
