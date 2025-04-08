@@ -1,5 +1,6 @@
 package cz.honza.pocasi;
 
+import java.awt.Polygon;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.stream.Collectors;
 import cz.honza.pocasi.io.DataReader;
 import cz.honza.pocasi.io.Radek;
 import cz.honza.pocasi.kalendar.Utils;
+import cz.honza.pocasi.matematika.Polynom;
 import cz.honza.pocasi.matematika.Regrese;
 import cz.honza.pocasi.matematika.rozdeleni.Normal;
 
@@ -125,7 +127,9 @@ public class Main {
 	    System.out.println("Teploty = " + avg);
 	    double globalWarming = Regrese.linearniRegrese(avg);
 	    System.out.println("Globalni oteplovani = " + globalWarming);
-	    System.out.println(Utils.dayIndexInYear(2025, 2, 1));		
+	    
+	    System.out.println(Utils.dayIndexInYear(2025, 1, 1));
+	    System.out.println(Polynom.kvadraticky(1, 2, -3).f(1));
 	}
 	
 	

@@ -41,26 +41,27 @@ public class Utils {
 		int year4 = year % 4; 
 
 		if (year4 == 0) {
-			brezen =  31 + 29 - 1;
+			brezen =  31 + 29;
 		} else {
-			brezen = 31 + 28 - 1;
+			brezen = 31 + 28;
 		}
 		
-				
+		year4 = (year4 + 3) % 4 + 1;
+		double move = -0.25 * year4;
 		
 		switch (month) {
-		case 1: return day - 1;
-		case 2: return 30 + day;
-		case 3: return brezen + day;
-		case 4: return brezen + 31 + day;
-		case 5: return brezen + 31 + 30 + day;
-		case 6: return brezen + 31 + 30 + 31 + day;
-		case 7: return brezen + 31 + 30 + 31 + 30 + day;
-		case 8: return brezen + 31 + 30 + 31 + 30 + 31 + day;
-		case 9: return brezen + 31 + 30 + 31 + 30 + 31 + 31 + day;
-		case 10: return brezen + 31 + 30 + 31 + 30 + 31 + 31 + 30 + day;
-		case 11: return brezen + 31 + 30 + 31 + 30 + 31 + 31 + 30 + 31 + day;
-		case 12: return brezen + 31 + 30 + 31 + 30 + 31 + 31 + 30 + 31 + 30 + day;
+		case 1: return move + day;
+		case 2: return move + 31 + day;
+		case 3: return move + brezen + day;
+		case 4: return move + brezen + 31 + day;
+		case 5: return move + brezen + 31 + 30 + day;
+		case 6: return move + brezen + 31 + 30 + 31 + day;
+		case 7: return move + brezen + 31 + 30 + 31 + 30 + day;
+		case 8: return move + brezen + 31 + 30 + 31 + 30 + 31 + day;
+		case 9: return move + brezen + 31 + 30 + 31 + 30 + 31 + 31 + day;
+		case 10: return move + brezen + 31 + 30 + 31 + 30 + 31 + 31 + 30 + day;
+		case 11: return move + brezen + 31 + 30 + 31 + 30 + 31 + 31 + 30 + 31 + day;
+		case 12: return move + brezen + 31 + 30 + 31 + 30 + 31 + 31 + 30 + 31 + 30 + day;
 		default: throw new IllegalArgumentException();
 		}
 	}
