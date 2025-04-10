@@ -1,5 +1,6 @@
 package cz.honza.pocasi.matematika;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -35,7 +36,33 @@ public class Regrese {
 		if (data.size() == 1) {
 			return Polynom.konstantni(data.get(0).y);
 		}
-		return null;
+		if (data.size() <= stupenPolynomu) {
+			stupenPolynomu = data.size() - 1;
+		}
+		double[] b = new double[stupenPolynomu + 1];
+		for (int i = 0; i < b.length; i++) {
+			double suma = 0;
+			double exp = b.length - 1 - i;
+			for (Bod2D bod : data) {
+				suma += bod.y * Math.pow(bod.x, exp);
+			}
+			b[i] = suma;
+		}
+		double[][] A = new double[stupenPolynomu + 1][stupenPolynomu + 1];
+		for (int i = 0; i < A.length; i++) {
+			for (int j = 0; j < A[i].length; j++) {
+				double suma = 0;
+				for (Bod2D bod : data) {
+					suma += Math.pow(bod.x, 2 * A.length - i - j);
+				}
+				A[i][j] = suma;
+			}	
+		}
+		double[] koefs = Gaus.solve(A, b);
+		List<Double> l = new ArrayList<Double>();
+		for (int i = koefs.length - 1; i >= 0; i--)
+			l.add(koefs[i]);
+		return new Polynom(l);
 	}
 
 }

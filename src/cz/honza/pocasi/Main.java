@@ -10,6 +10,8 @@ import java.util.stream.Collectors;
 import cz.honza.pocasi.io.DataReader;
 import cz.honza.pocasi.io.Radek;
 import cz.honza.pocasi.kalendar.Utils;
+import cz.honza.pocasi.matematika.Bod2D;
+import cz.honza.pocasi.matematika.Gaus;
 import cz.honza.pocasi.matematika.Polynom;
 import cz.honza.pocasi.matematika.Regrese;
 import cz.honza.pocasi.matematika.rozdeleni.Normal;
@@ -23,7 +25,22 @@ public class Main {
 	private static final int MONTH = 5;
 	private static final int EXTRA_DAYS = 4;
 	private static final double GLOBAL_WARMING = 0.06; 
+
+	private static List<Bod2D> regresniBody(List<Radek> teploty) {
+		List<Bod2D> r = new ArrayList<Bod2D>();
+		return teploty.stream()
+				.map(rad -> 
+					new Bod2D(Utils.dayIndexInYear(rad.rok, rad.mesic, rad.den), rad.teplota))
+				.collect(Collectors.toList());
+		
+	}
 	
+	private static void polynomRoku(List<Bod2D> body) {
+		Polynom rocniPolynom = Regrese.polynomialniRegrese(50, body);
+		for (int i = 0; i < 366; i++) {
+			System.out.println(i + " " + rocniPolynom.f(i));
+		}
+	}
 	
 	
 	public static void main(String[] args) {
@@ -33,6 +50,8 @@ public class Main {
 		}
 		
 		final List<Radek> data = DataReader.read(args[0]);
+		final List<Bod2D> body = regresniBody(data);
+		
 		
 		if (data == null) {
 			System.out.println("Nedaří se naparsovat soubor");
@@ -129,7 +148,7 @@ public class Main {
 	    System.out.println("Globalni oteplovani = " + globalWarming);
 	    
 	    System.out.println(Utils.dayIndexInYear(2025, 1, 1));
-	    System.out.println(Polynom.kvadraticky(1, 2, -3).f(1));
+	    polynomRoku(body);
 	}
 	
 	
