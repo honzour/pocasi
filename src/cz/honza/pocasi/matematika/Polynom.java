@@ -20,6 +20,19 @@ public class Polynom implements Funkce {
 		koefs.add(A);
 		return new Polynom(koefs);
 	}
+	
+	public static Polynom linearni(double A, double B) {
+		List<Double> koefs = new ArrayList<Double>();
+		koefs.add(B);
+		koefs.add(A);
+		return new Polynom(koefs);
+	}
+	
+	public static Polynom konstantni(double A) {
+		List<Double> koefs = new ArrayList<Double>();
+		koefs.add(A);
+		return new Polynom(koefs);
+	}
 
 	@Override
 	public double f(double x) {

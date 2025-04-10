@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 public class Regrese {
+	// https://cs.wikipedia.org/wiki/Line%C3%A1rn%C3%AD_regrese
 	public static double linearniRegrese(List<Double> data) {
 		if (data == null || data.isEmpty()) {
 			throw new IllegalArgumentException();
@@ -24,6 +25,17 @@ public class Regrese {
 		
 		
 		return (A - B) / (C - D);
+	}
+	
+	// https://cs.wikipedia.org/wiki/Polynomick%C3%A1_regrese
+	public static Polynom polynomialniRegrese(int stupenPolynomu, List<Bod2D> data) {
+		if (data.size() == 0) {
+			return Polynom.konstantni(0);
+		}
+		if (data.size() == 1) {
+			return Polynom.konstantni(data.get(0).y);
+		}
+		return null;
 	}
 
 }
