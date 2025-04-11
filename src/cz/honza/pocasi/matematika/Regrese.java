@@ -51,11 +51,15 @@ public class Regrese {
 		double[][] A = new double[stupenPolynomu + 1][stupenPolynomu + 1];
 		for (int i = 0; i < A.length; i++) {
 			for (int j = 0; j < A[i].length; j++) {
-				double suma = 0;
-				for (Bod2D bod : data) {
-					suma += Math.pow(bod.x, 2 * A.length - i - j);
+				if (A.length - i - j == 0) {
+					A[i][j] = A.length; 
+				} else {
+					double suma = 0;
+					for (Bod2D bod : data) {
+						suma += Math.pow(bod.x, 2 * A.length - i - j);
+					}
+					A[i][j] = suma;
 				}
-				A[i][j] = suma;
 			}	
 		}
 		double[] koefs = Gaus.solve(A, b);

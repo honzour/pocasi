@@ -1,7 +1,7 @@
 package cz.honza.pocasi;
 
-import java.awt.Polygon;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,17 +11,17 @@ import cz.honza.pocasi.io.DataReader;
 import cz.honza.pocasi.io.Radek;
 import cz.honza.pocasi.kalendar.Utils;
 import cz.honza.pocasi.matematika.Bod2D;
-import cz.honza.pocasi.matematika.Gaus;
 import cz.honza.pocasi.matematika.Polynom;
+import cz.honza.pocasi.matematika.PolynomialRegressionNoLib;
 import cz.honza.pocasi.matematika.Regrese;
 import cz.honza.pocasi.matematika.rozdeleni.Normal;
 
 public class Main {
 
-	private static final double TRESHOLD = 19.5;
+	private static final double TRESHOLD = 21;
 	private static final int YEAR = 2025;
 	private static final int YEAR_START = 2016;
-	private static final int DAY = 1;
+	private static final int DAY = 15;
 	private static final int MONTH = 5;
 	private static final int EXTRA_DAYS = 4;
 	private static final double GLOBAL_WARMING = 0.06; 
@@ -36,7 +36,7 @@ public class Main {
 	}
 	
 	private static void polynomRoku(List<Bod2D> body) {
-		Polynom rocniPolynom = Regrese.polynomialniRegrese(50, body);
+		Polynom rocniPolynom = PolynomialRegressionNoLib.fitPolynomial(body, 30);
 		for (int i = 0; i < 366; i++) {
 			System.out.println(i + " " + rocniPolynom.f(i));
 		}
@@ -146,11 +146,17 @@ public class Main {
 	    System.out.println("Teploty = " + avg);
 	    double globalWarming = Regrese.linearniRegrese(avg);
 	    System.out.println("Globalni oteplovani = " + globalWarming);
+	    testRegrese();
 	    
-	    System.out.println(Utils.dayIndexInYear(2025, 1, 1));
+	   // System.out.println(Utils.dayIndexInYear(2025, 1, 1));
 	    polynomRoku(body);
+	    testRegrese();
 	}
 	
+	private static void testRegrese() {
+		Polynom p = PolynomialRegressionNoLib.fitPolynomial(Arrays.asList(new Bod2D(0, 0), new Bod2D(1, 1), new Bod2D(1, 2), new Bod2D(2, 2)), 1);
+		System.out.println(p.f(1));
+	}
 	
 	private static int calculateYearStart(int year, int month) {
 		if (MONTH > 1 && MONTH < 12) return year;
