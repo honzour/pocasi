@@ -20,7 +20,6 @@ public abstract class ObecnaMetoda implements Metoda {
 	protected static final double GLOBAL_WARMING = 0.06;
 	
 	private static List<Bod2D> regresniBody(List<Radek> teploty) {
-		List<Bod2D> r = new ArrayList<Bod2D>();
 		return teploty.stream()
 				.map(rad -> 
 					new Bod2D(Utils.dayIndexInYear(rad.rok, rad.mesic, rad.den), rad.teplota))
