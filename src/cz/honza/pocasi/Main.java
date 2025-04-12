@@ -55,27 +55,8 @@ public class Main {
 	    //testRegrese();
 	}
 	
-	private static List<Bod2D> regresniBody(List<Radek> teploty) {
-		List<Bod2D> r = new ArrayList<Bod2D>();
-		return teploty.stream()
-				.map(rad -> 
-					new Bod2D(Utils.dayIndexInYear(rad.rok, rad.mesic, rad.den), rad.teplota))
-				.collect(Collectors.toList());
-		
-	}
 	
-	private static void polynomRoku(List<Bod2D> body) {
-		Polynom rocniPolynom = PolynomialRegressionNoLib.fitPolynomial(body, 36);
-		for (int i = 0; i < 366; i++) {
-			System.out.println(i + " " + rocniPolynom.f(i));
-		}
-	}
-
 	
-	private static void testRegrese() {
-		Polynom p = PolynomialRegressionNoLib.fitPolynomial(Arrays.asList(new Bod2D(0, 0), new Bod2D(1, 1), new Bod2D(1, 2), new Bod2D(2, 2)), 1);
-		System.out.println(p.f(1));
-	}
 	
 
 }

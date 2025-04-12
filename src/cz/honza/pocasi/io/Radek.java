@@ -11,4 +11,8 @@ public class Radek {
 		this.den = den;
 		this.teplota = teplota;
 	}
+	
+	public Radek copy() {
+		return new Radek(rok, mesic, den, teplota);
+	}
 }
