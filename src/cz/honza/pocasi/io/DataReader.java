@@ -24,11 +24,7 @@ public class DataReader {
 					if (fields.length < 4) {
 						throw new IOException("Field " + s);
 					}
-					Radek radek = new Radek();
-					radek.rok = Integer.parseInt(fields[0]);
-					radek.mesic = Integer.parseInt(fields[1]);
-					radek.den = Integer.parseInt(fields[2]);
-					radek.teplota = Double.parseDouble(fields[3]);
+					Radek radek = new Radek(Integer.parseInt(fields[0]), Integer.parseInt(fields[1]), Integer.parseInt(fields[2]), Double.parseDouble(fields[3]));
 					data.add(radek);
 				}
 			}
