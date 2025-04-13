@@ -10,10 +10,7 @@ public class Drevacka extends ObecnaMetoda {
 	@Override
 	public Vysledek spocitej(Radek zadani, List<Radek> historickaData) {
 		
-		historickaData = kopiruj(historickaData);
-		prepoctiDataNaDen(historickaData, zadani);
-		historickaData = filtrujData(historickaData);
-		otepliData(historickaData, zadani);
+		historickaData = upravData(historickaData, zadani);
 		
 		int lt = 0;
 		int ge = 0;

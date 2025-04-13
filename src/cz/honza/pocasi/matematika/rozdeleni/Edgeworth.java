@@ -1,7 +1,23 @@
 package cz.honza.pocasi.matematika.rozdeleni;
 
-public class Edgeworth {
-    public static double edgeworthPDF(double x, double mean, double variance, double mu3, double mu4) {
+import cz.honza.pocasi.matematika.Funkce;
+
+public class Edgeworth implements Funkce {
+	
+	double mean;
+	double variance;
+	double mu3;
+	double mu4;
+	
+	public Edgeworth(double mean, double variance, double mu3, double mu4) {
+		this.mean = mean;
+		this.variance = variance;
+		this.mu3 = mu3;
+		this.mu4 = mu4;
+	}
+	
+	@Override
+    public double f(double x) {
         double sigma = Math.sqrt(variance);
         double z = (x - mean) / sigma;
 

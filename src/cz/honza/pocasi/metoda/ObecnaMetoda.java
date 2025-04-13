@@ -92,6 +92,14 @@ public abstract class ObecnaMetoda implements Metoda {
 		return filtr;
 	}
 	
+	protected List<Radek> upravData(List<Radek> historickaData, Radek zadani) {
+		historickaData = kopiruj(historickaData);
+		prepoctiDataNaDen(historickaData, zadani);
+		historickaData = filtrujData(historickaData);
+		otepliData(historickaData, zadani);
+		return historickaData;
+	}
+	
 	protected int calculateYearStart(int year, int month) {
 		if (MONTH > 1 && MONTH < 12) return year;
 		if (MONTH == 1 && DAY > EXTRA_DAYS) return year;

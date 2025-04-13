@@ -18,10 +18,10 @@ import cz.honza.pocasi.metoda.Normalni;
 
 public class Main {
 	
-	private static final double TEPLOTA = 20.0;
+	private static final double TEPLOTA = 19.5;
 	private static final int ROK = 2025;
 	private static final int MESIC = 5;
-	private static final int DEN = 15;
+	private static final int DEN = 1;
 	
 	public static void main(String[] args) {
 		if (args.length < 1) {
@@ -44,19 +44,5 @@ public class Main {
 		metody.forEach(
 			m -> System.out.println(m.spocitej(new Radek(ROK, MESIC, DEN, TEPLOTA), data).toString())
 		);
-		
-		
-		// final List<Bod2D> body = regresniBody(data);
-		
-	    //testRegrese();
-	    
-	   // System.out.println(Utils.dayIndexInYear(2025, 1, 1));
-	    //polynomRoku(body);
-	    //testRegrese();
 	}
-	
-	
-	
-	
-
 }
