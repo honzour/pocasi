@@ -18,9 +18,9 @@ import cz.honza.pocasi.metoda.Normalni;
 
 public class Main {
 	
-	private static final double TEPLOTA = 19.5;
+	private static final double TEPLOTA = 10.5;
 	private static final int ROK = 2025;
-	private static final int MESIC = 5;
+	private static final int MESIC = 2;
 	private static final int DEN = 1;
 	
 	public static void main(String[] args) {
