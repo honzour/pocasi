@@ -15,6 +15,7 @@ import cz.honza.pocasi.metoda.Drevacka;
 import cz.honza.pocasi.metoda.Matfyzacka;
 import cz.honza.pocasi.metoda.Metoda;
 import cz.honza.pocasi.metoda.Normalni;
+import cz.honza.pocasi.metoda.ObecnaMetoda;
 
 public class Main {
 	
@@ -22,6 +23,10 @@ public class Main {
 	private static final int ROK = 2025;
 	private static final int MESIC = 4;
 	private static final int DEN = 15;
+	
+	private static final int EXTRA_DAYS = 4;
+	private static final int YEAR_START = 2016;
+	private static final double GLOBAL_WARMING = 0.06;
 	
 	public static void main(String[] args) {
 		if (args.length < 1) {
@@ -36,10 +41,12 @@ public class Main {
 			return;
 		}
 		
-		List<Metoda> metody = new ArrayList<Metoda>(); 
-		metody.add(new Drevacka());
-		metody.add(new Normalni());
-		metody.add(new Matfyzacka());
+		ObecnaMetoda.Settings settings = new ObecnaMetoda.Settings(EXTRA_DAYS, YEAR_START, GLOBAL_WARMING);
+		
+		List<Metoda> metody = new ArrayList<Metoda>();
+		metody.add(new Drevacka(settings));
+		metody.add(new Normalni(settings));
+		metody.add(new Matfyzacka(settings));
 		
 		metody.forEach(
 			m -> System.out.println(m.spocitej(new Radek(ROK, MESIC, DEN, TEPLOTA), data).toString())

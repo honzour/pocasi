@@ -7,6 +7,10 @@ import cz.honza.pocasi.io.Radek;
 
 public class Drevacka extends ObecnaMetoda {
 	
+	public Drevacka(ObecnaMetoda.Settings settings) {
+		super(settings);
+	}
+	
 	@Override
 	public Vysledek spocitej(Radek zadani, List<Radek> historickaData) {
 		

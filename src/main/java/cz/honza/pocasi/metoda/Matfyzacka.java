@@ -11,6 +11,10 @@ import cz.honza.pocasi.matematika.rozdeleni.Charakteristiky;
 import cz.honza.pocasi.matematika.rozdeleni.Edgeworth;
 
 public class Matfyzacka extends ObecnaMetoda {
+	
+	public Matfyzacka(ObecnaMetoda.Settings settings) {
+		super(settings);
+	}
 
 	@Override
 	public Vysledek spocitej(Radek zadani, List<Radek> historickaData) {

@@ -13,9 +13,25 @@ import cz.honza.pocasi.matematika.PolynomialRegressionNoLib;
 
 public abstract class ObecnaMetoda implements Metoda {
 	
-	protected static final int EXTRA_DAYS = 4;
-	protected static final int YEAR_START = 2016;
-	protected static final double GLOBAL_WARMING = 0.06;
+	public static class Settings {
+		public int extraDays;
+		public int yearStart;
+		public double globalWarming;
+
+		public Settings(int extraDays, int yearStart, double globalWarming) {
+			this.extraDays = extraDays;
+			this.yearStart = yearStart;
+			this.globalWarming = globalWarming;
+		}
+		
+		
+	}
+	
+	protected Settings settings;
+	
+	public ObecnaMetoda(Settings settings) {
+		this.settings = settings;
+	}
 	
 	private static List<Bod2D> regresniBody(List<Radek> teploty) {
 		return teploty.stream()
@@ -48,24 +64,24 @@ public abstract class ObecnaMetoda implements Metoda {
 	protected void otepliData(List<Radek> historickaData, Radek zadani) {
 		for (Radek radek : historickaData) {
 			final int rok_start = calculateYearStart(radek.rok, radek.mesic, radek.den);
-	        radek.teplota = radek.teplota + GLOBAL_WARMING * (zadani.rok - rok_start);
+	        radek.teplota = radek.teplota + settings.globalWarming * (zadani.rok - rok_start);
 		}
 	}
 
-	protected List<Radek> filtrujData(List<Radek> historickaData) {
+	protected List<Radek> filtrujData(List<Radek> historickaData, Radek zadani) {
 		
 		List<Radek> filtr = new ArrayList<Radek>();
 		for (Radek radek : historickaData) {
 	        
-	        if (radek.rok < YEAR_START) continue;
-	        if (radek.rok == YEAR_START && radek.mesic == 1 && radek.den <= 2 * EXTRA_DAYS + 1) continue;
+	        if (radek.rok < settings.yearStart) continue;
+	        if (radek.rok == settings.yearStart && radek.mesic == 1 && radek.den <= 2 * settings.yearStart + 1) continue;
 		        		        
-	        final int den_start = calculateDayStart(radek.rok, radek.mesic, radek.den);
-	        final int den_konec = calculateDayEnd(radek.rok, radek.mesic, radek.den);
-	        final int mesic_start = calculateMonthStart(radek.mesic, radek.den);
-	        final int mesic_konec = calculateMonthEnd(radek.rok, radek.mesic, radek.den);
-	        final int rok_start = calculateYearStart(radek.rok, radek.mesic, radek.den);
-	        final int rok_konec = calculateYearEnd(radek.rok, radek.mesic, radek.den);
+	        final int den_start = calculateDayStart(zadani.rok, zadani.mesic, zadani.den);
+	        final int den_konec = calculateDayEnd(zadani.rok, zadani.mesic, zadani.den);
+	        final int mesic_start = calculateMonthStart(zadani.mesic, zadani.den);
+	        final int mesic_konec = calculateMonthEnd(zadani.rok, zadani.mesic, zadani.den);
+	        final int rok_start = calculateYearStart(radek.rok, zadani.mesic, zadani.den);
+	        final int rok_konec = calculateYearEnd(radek.rok, zadani.mesic, zadani.den);
 		     
 		        
 	        if (radek.rok < rok_start) continue;
@@ -93,15 +109,15 @@ public abstract class ObecnaMetoda implements Metoda {
 	protected List<Radek> upravData(List<Radek> historickaData, Radek zadani) {
 		historickaData = kopiruj(historickaData);
 		prepoctiDataNaDen(historickaData, zadani);
-		historickaData = filtrujData(historickaData);
+		historickaData = filtrujData(historickaData, zadani);
 		otepliData(historickaData, zadani);
 		return historickaData;
 	}
 	
 	protected int calculateYearStart(int year, int month, int day) {
 		if (month > 1 && month < 12) return year;
-		if (month == 1 && day > EXTRA_DAYS) return year;
-		if (month == 12 && day < 32 - EXTRA_DAYS) return year;
+		if (month == 1 && day > settings.extraDays) return year;
+		if (month == 12 && day < 32 - settings.extraDays) return year;
 		if (month == 1) {
 			return year - 1;
 		} else {
@@ -111,8 +127,8 @@ public abstract class ObecnaMetoda implements Metoda {
 	
 	protected int calculateYearEnd(int year, int month, int day) {
 		if (month > 1 && month < 12) return year;
-		if (month == 1 && day > EXTRA_DAYS) return year;
-		if (month == 12 && day < 32 - EXTRA_DAYS) return year;
+		if (month == 1 && day > settings.extraDays) return year;
+		if (month == 12 && day < 32 - settings.extraDays) return year;
 		if (month == 12) {
 			return year + 1;
 		} else {
@@ -121,14 +137,14 @@ public abstract class ObecnaMetoda implements Metoda {
 	}
 	
 	protected int calculateMonthStart(int month, int day) {
-		if (day > EXTRA_DAYS) return month;
+		if (day > settings.extraDays) return month;
 		int month2 = month - 1;
 		if (month2 == 0) month2 = 12;
 		return month2;
 	}
 	
 	protected int calculateMonthEnd(int year, int month, int day) {
-		if (day + EXTRA_DAYS <= Utils.maxDaysOfMonth(year, month)) return month;
+		if (day + settings.extraDays <= Utils.maxDaysOfMonth(year, month)) return month;
 		int month2 = month + 1;
 		if (month2 == 13) month2 = 1;
 		return month2;
@@ -136,13 +152,13 @@ public abstract class ObecnaMetoda implements Metoda {
 	
 	
 	protected int calculateDayStart(int year, int month, int day) {
-		if (day > EXTRA_DAYS) return day - EXTRA_DAYS;
-		return Utils.maxDaysOfMonth(year, month - 1) - EXTRA_DAYS + 1;
+		if (day > settings.extraDays) return day - settings.extraDays;
+		return Utils.maxDaysOfMonth(year, month - 1) - settings.extraDays + 1;
 	}
 	
 	protected int calculateDayEnd(int year, int month, int day) {
-		int diff = day + EXTRA_DAYS - Utils.maxDaysOfMonth(year, month) ;
-		if (diff <= 0) return day + EXTRA_DAYS;
+		int diff = day + settings.extraDays - Utils.maxDaysOfMonth(year, month) ;
+		if (diff <= 0) return day + settings.extraDays;
 		return diff;
 	}
 
