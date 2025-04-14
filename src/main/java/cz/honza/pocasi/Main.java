@@ -1,16 +1,9 @@
 package cz.honza.pocasi;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
-
 import cz.honza.pocasi.io.DataReader;
 import cz.honza.pocasi.io.Radek;
-import cz.honza.pocasi.kalendar.Utils;
-import cz.honza.pocasi.matematika.Bod2D;
-import cz.honza.pocasi.matematika.Polynom;
-import cz.honza.pocasi.matematika.PolynomialRegressionNoLib;
 import cz.honza.pocasi.metoda.Drevacka;
 import cz.honza.pocasi.metoda.Matfyzacka;
 import cz.honza.pocasi.metoda.Metoda;
