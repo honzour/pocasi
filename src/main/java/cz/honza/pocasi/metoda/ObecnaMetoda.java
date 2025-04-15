@@ -37,7 +37,7 @@ public abstract class ObecnaMetoda implements Metoda {
 		return spocitejSUpravenymiDaty(zadani, teploty);
 	}
 	
-	protected abstract Vysledek spocitejSUpravenymiDaty(Radek zadani, List<Double> historickaData);
+	public abstract Vysledek spocitejSUpravenymiDaty(Radek zadani, List<Double> historickaData);
 	
 	private static List<Bod2D> regresniBody(List<Radek> teploty) {
 		return teploty.stream()

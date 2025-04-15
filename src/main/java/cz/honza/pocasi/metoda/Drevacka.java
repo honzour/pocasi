@@ -11,7 +11,7 @@ public class Drevacka extends ObecnaMetoda {
 	}
 	
 	@Override
-	protected Vysledek spocitejSUpravenymiDaty(Radek zadani, List<Double> historickaData) {
+	public Vysledek spocitejSUpravenymiDaty(Radek zadani, List<Double> historickaData) {
 		int lt = 0;
 		int ge = 0;
 		

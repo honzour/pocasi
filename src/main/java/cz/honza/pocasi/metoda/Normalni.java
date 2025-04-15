@@ -12,10 +12,9 @@ public class Normalni extends ObecnaMetoda {
 	}
 
 	@Override
-	protected Vysledek spocitejSUpravenymiDaty(Radek zadani, List<Double> historickaData)  {
+	public Vysledek spocitejSUpravenymiDaty(Radek zadani, List<Double> historickaData)  {
 		final double E = Charakteristiky.E(historickaData);
 		final double VAR = Charakteristiky.VAR(historickaData);
-
 		
 		final double probability = Normal.normalCDF(zadani.teplota, E, VAR);
 

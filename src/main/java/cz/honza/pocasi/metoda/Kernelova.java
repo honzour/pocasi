@@ -12,7 +12,7 @@ public class Kernelova extends ObecnaMetoda {
 	}
 
 	@Override
-	protected Vysledek spocitejSUpravenymiDaty(Radek zadani, List<Double> historickaData) {
+	public Vysledek spocitejSUpravenymiDaty(Radek zadani, List<Double> historickaData) {
 		final double pasmo = 3.0;
 		final Funkce hustota = new Hustota(pasmo, historickaData);
 		
