@@ -5,16 +5,17 @@ import java.util.List;
 import cz.honza.pocasi.io.DataReader;
 import cz.honza.pocasi.io.Radek;
 import cz.honza.pocasi.metoda.Drevacka;
-import cz.honza.pocasi.metoda.Matfyzacka;
+import cz.honza.pocasi.metoda.Kernelova;
+import cz.honza.pocasi.metoda.Momentova;
 import cz.honza.pocasi.metoda.Metoda;
 import cz.honza.pocasi.metoda.Normalni;
 import cz.honza.pocasi.metoda.ObecnaMetoda;
 
 public class Main {
 	
-	private static final double TEPLOTA = 16.5;
+	private static final double TEPLOTA = 20.5;
 	private static final int ROK = 2025;
-	private static final int MESIC = 4;
+	private static final int MESIC = 5;
 	private static final int DEN = 15;
 	
 	private static final int EXTRA_DAYS = 4;
@@ -39,7 +40,8 @@ public class Main {
 		List<Metoda> metody = new ArrayList<Metoda>();
 		metody.add(new Drevacka(settings));
 		metody.add(new Normalni(settings));
-		metody.add(new Matfyzacka(settings));
+		metody.add(new Momentova(settings));
+		metody.add(new Kernelova(settings));
 		
 		metody.forEach(
 			m -> System.out.println(m.spocitej(new Radek(ROK, MESIC, DEN, TEPLOTA), data).toString())

@@ -23,8 +23,6 @@ public abstract class ObecnaMetoda implements Metoda {
 			this.yearStart = yearStart;
 			this.globalWarming = globalWarming;
 		}
-		
-		
 	}
 	
 	protected Settings settings;
@@ -32,6 +30,14 @@ public abstract class ObecnaMetoda implements Metoda {
 	public ObecnaMetoda(Settings settings) {
 		this.settings = settings;
 	}
+	
+	public Vysledek spocitej(Radek zadani, List<Radek> historickaData) {
+		historickaData = upravData(historickaData, zadani);
+		final List<Double> teploty = historickaData.stream().map(radek -> radek.teplota).collect(Collectors.toList());
+		return spocitejSUpravenymiDaty(zadani, teploty);
+	}
+	
+	protected abstract Vysledek spocitejSUpravenymiDaty(Radek zadani, List<Double> historickaData);
 	
 	private static List<Bod2D> regresniBody(List<Radek> teploty) {
 		return teploty.stream()

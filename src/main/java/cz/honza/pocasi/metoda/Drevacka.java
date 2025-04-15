@@ -4,7 +4,6 @@ import java.util.List;
 
 import cz.honza.pocasi.io.Radek;
 
-
 public class Drevacka extends ObecnaMetoda {
 	
 	public Drevacka(ObecnaMetoda.Settings settings) {
@@ -12,16 +11,13 @@ public class Drevacka extends ObecnaMetoda {
 	}
 	
 	@Override
-	public Vysledek spocitej(Radek zadani, List<Radek> historickaData) {
-		
-		historickaData = upravData(historickaData, zadani);
-		
+	protected Vysledek spocitejSUpravenymiDaty(Radek zadani, List<Double> historickaData) {
 		int lt = 0;
 		int ge = 0;
 		
-		for (Radek radek : historickaData) {
+		for (Double teplota : historickaData) {
 	        	        
-	        if (radek.teplota >= zadani.teplota) {
+	        if (teplota >= zadani.teplota) {
 	        	ge++;
 	        } else {
 	        	lt++;

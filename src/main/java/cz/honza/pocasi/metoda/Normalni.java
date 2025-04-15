@@ -1,9 +1,6 @@
 package cz.honza.pocasi.metoda;
 
-
 import java.util.List;
-import java.util.stream.Collectors;
-
 import cz.honza.pocasi.io.Radek;
 import cz.honza.pocasi.matematika.rozdeleni.Charakteristiky;
 import cz.honza.pocasi.matematika.rozdeleni.Normal;
@@ -15,14 +12,9 @@ public class Normalni extends ObecnaMetoda {
 	}
 
 	@Override
-	public Vysledek spocitej(Radek zadani, List<Radek> historickaData) {
-		
-		historickaData = upravData(historickaData, zadani);
-		final List<Double> values = historickaData.stream().map(radek -> radek.teplota).collect(Collectors.toList());
-
-		
-		final double E = Charakteristiky.E(values);
-		final double VAR = Charakteristiky.VAR(values);
+	protected Vysledek spocitejSUpravenymiDaty(Radek zadani, List<Double> historickaData)  {
+		final double E = Charakteristiky.E(historickaData);
+		final double VAR = Charakteristiky.VAR(historickaData);
 
 		
 		final double probability = Normal.normalCDF(zadani.teplota, E, VAR);
