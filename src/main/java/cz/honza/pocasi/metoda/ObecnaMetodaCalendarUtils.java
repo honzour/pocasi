@@ -1,28 +1,19 @@
 package cz.honza.pocasi.metoda;
 
+import cz.honza.pocasi.io.Radek;
 import cz.honza.pocasi.kalendar.Utils;
 
 public class ObecnaMetodaCalendarUtils {
-	public static int calculateYearStart(int yearHistorical, int month, int day, int extraDays) {
-		if (month > 1 && month < 12) return yearHistorical;
-		if (month == 1 && day > extraDays) return yearHistorical;
-		if (month == 12 && day < 32 - extraDays) return yearHistorical;
-		if (month == 1) {
-			return yearHistorical - 1;
-		} else {
-			return yearHistorical;
-		}
+	public static int calculateYearStart(Radek historickeDato, Radek zadani, int extraDays) {
+		if (zadani.mesic > 1) return historickeDato.rok;
+		if (zadani.mesic == 1 && zadani.den > extraDays) return historickeDato.rok;
+		throw new RuntimeException("TODO");
 	}
 	
-	public static int calculateYearEnd(int yearHistorical, int month, int day, int extraDays) {
-		if (month > 1 && month < 12) return yearHistorical;
-		if (month == 1 && day > extraDays) return yearHistorical;
-		if (month == 12 && day < 32 - extraDays) return yearHistorical;
-		if (month == 12) {
-			return yearHistorical + 1;
-		} else {
-			return yearHistorical;
-		}
+	public static int calculateYearEnd(Radek historickeDato, Radek zadani, int extraDays) {
+		if (zadani.mesic < 12) return historickeDato.rok;
+		if (zadani.mesic == 12 && zadani.den < 32 - extraDays) return historickeDato.rok;
+		throw new RuntimeException("TODO");
 	}
 	
 	public static int calculateMonthStart(int month, int day, int extraDays) {

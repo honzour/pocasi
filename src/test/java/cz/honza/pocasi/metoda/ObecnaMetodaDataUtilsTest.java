@@ -4,6 +4,7 @@ package cz.honza.pocasi.metoda;
 import java.util.Arrays;
 import java.util.List;
 
+import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -35,7 +36,18 @@ class ObecnaMetodaDataUtilsTest {
 				new Radek(2025, 1, 2, 0.1),
 				new ObecnaMetoda.Settings(4, 2016, 0));
 		Assertions.assertNotNull(vystup);
-		Assertions.assertEquals(9, vystup.size());
+		Assertions.assertEquals(10, vystup.size());
 	}
+	
+	@Test
+	void testProsinec() {
+		boolean accepted = ObecnaMetodaDataUtils.acceptRadek(
+				new Radek(2016, 12, 31, 0.1),
+				new Radek(2025, 1, 2, 0.1),
+				new ObecnaMetoda.Settings(4, 2016, 0)
+			);
+		Assert.assertTrue(accepted);
+	}
+	
 
 }

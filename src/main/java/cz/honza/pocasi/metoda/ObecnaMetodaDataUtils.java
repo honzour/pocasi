@@ -1,59 +1,51 @@
 package cz.honza.pocasi.metoda;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import cz.honza.pocasi.io.Radek;
 import cz.honza.pocasi.metoda.ObecnaMetoda.Settings;
 
 public class ObecnaMetodaDataUtils {
 	
-	public static void otepliData(List<Radek> historickaData, Radek zadani,Settings settings) {
+	public static void otepliData(List<Radek> historickaData, Radek zadani, Settings settings) {
 		for (Radek radek : historickaData) {
-			final int rok_start = ObecnaMetodaCalendarUtils.calculateYearStart(radek.rok, radek.mesic, radek.den, settings.extraDays);
-	        radek.teplota = radek.teplota + settings.globalWarming * (zadani.rok - rok_start);
+	        radek.teplota = radek.teplota + settings.globalWarming * (zadani.rok - radek.rok);
 		}
 	}
 
 	public static List<Radek> filtrujData(List<Radek> historickaData, Radek zadani, Settings settings) {
-		
-		List<Radek> filtr = new ArrayList<Radek>();
-		for (Radek radek : historickaData) {
-	        
-	        if (radek.rok < settings.yearStart) continue;
-	        if (radek.rok == settings.yearStart && radek.mesic == 1 && radek.den <= 2 * settings.yearStart + 1) continue;
-		        		        
-	        final int den_start = ObecnaMetodaCalendarUtils.calculateDayStart(zadani.rok, zadani.mesic, zadani.den, settings.extraDays);
-	        final int den_konec = ObecnaMetodaCalendarUtils.calculateDayEnd(zadani.rok, zadani.mesic, zadani.den, settings.extraDays);
-	        final int mesic_start = ObecnaMetodaCalendarUtils.calculateMonthStart(zadani.mesic, zadani.den, settings.extraDays);
-	        final int mesic_konec = ObecnaMetodaCalendarUtils.calculateMonthEnd(zadani.rok, zadani.mesic, zadani.den, settings.extraDays);
-	        final int rok_start = ObecnaMetodaCalendarUtils.calculateYearStart(radek.rok, zadani.mesic, zadani.den, settings.extraDays);
-	        final int rok_konec = ObecnaMetodaCalendarUtils.calculateYearEnd(radek.rok, zadani.mesic, zadani.den, settings.extraDays);
-		     
-		        
-	        if (radek.rok < rok_start) continue;
-		        
-	        if (radek.rok == rok_start) {
-	        	if (radek.mesic < mesic_start) continue;
-	        	if (radek.mesic == mesic_start) {
-	        		if (radek.den < den_start) continue;
-	        	}
-	        }
-	        
-	        if (radek.rok > rok_konec) continue;
-		        
-	        if (radek.rok == rok_konec) {
-	        	if (radek.mesic > mesic_konec) continue;
-	        	if (radek.mesic == mesic_konec) {
-	        		if (radek.den > den_konec) continue;
-	        	}
-	        }
-	        filtr.add(radek);
-		}
-		return filtr;
+		return historickaData.stream().filter(radek -> acceptRadek(radek, zadani, settings)).collect(Collectors.toList());
 	}
 	
-	
-
-
+	public static boolean acceptRadek(Radek historickeDato, Radek zadani, Settings settings) {
+		// Úplně ignorujeme řádky před nakonfigurovaným rokem kvůli globálnímu oteplování 
+        if (historickeDato.rok < settings.yearStart) return false;
+        
+        final int den_start = ObecnaMetodaCalendarUtils.calculateDayStart(historickeDato.rok, zadani.mesic, zadani.den, settings.extraDays);
+        final int den_konec = ObecnaMetodaCalendarUtils.calculateDayEnd(historickeDato.rok, zadani.mesic, zadani.den, settings.extraDays);
+        final int mesic_start = ObecnaMetodaCalendarUtils.calculateMonthStart(zadani.mesic, zadani.den, settings.extraDays);
+        final int mesic_konec = ObecnaMetodaCalendarUtils.calculateMonthEnd(historickeDato.rok, zadani.mesic, zadani.den, settings.extraDays);
+        final int rok_start = ObecnaMetodaCalendarUtils.calculateYearStart(historickeDato, zadani, settings.extraDays);
+        final int rok_konec = ObecnaMetodaCalendarUtils.calculateYearEnd(historickeDato, zadani, settings.extraDays);
+	        
+        if (historickeDato.rok < rok_start) return false;
+	        
+        if (historickeDato.rok == rok_start) {
+        	if (historickeDato.mesic < mesic_start) return false;
+        	if (historickeDato.mesic == mesic_start) {
+        		if (historickeDato.den < den_start) return false;
+        	}
+        }
+        
+        if (historickeDato.rok > rok_konec) return false;
+	        
+        if (historickeDato.rok == rok_konec) {
+        	if (historickeDato.mesic > mesic_konec) return false;
+        	if (historickeDato.mesic == mesic_konec) {
+        		if (historickeDato.den > den_konec) return false;
+        	}
+        }
+        return true;
+	}
 }
