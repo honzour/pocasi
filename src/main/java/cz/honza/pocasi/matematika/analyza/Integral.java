@@ -15,6 +15,11 @@ public class Integral {
 			oldX = x;
 			oldFx = fx;
 		}
+		if (oldX < kam) {
+			double fx = f.f(kam);
+			suma += step * (fx + oldFx) / 2;
+			
+		}
 		return suma;
 	}
 }
