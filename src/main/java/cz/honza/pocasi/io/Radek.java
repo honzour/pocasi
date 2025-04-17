@@ -1,18 +1,23 @@
 package cz.honza.pocasi.io;
 
+import java.time.LocalDate;
+
 public class Radek {
-    public int rok;
-    public int mesic;
-    public int den;
+    public LocalDate datum;
     public double teplota;
+    
+	public Radek(LocalDate datum, double teplota) {
+		super();
+		this.datum = datum;
+		this.teplota = teplota;
+	}
+
 	public Radek(int rok, int mesic, int den, double teplota) {
-		this.rok = rok;
-		this.mesic = mesic;
-		this.den = den;
+		datum = LocalDate.of(rok, mesic, den);
 		this.teplota = teplota;
 	}
 	
 	public Radek copy() {
-		return new Radek(rok, mesic, den, teplota);
+		return new Radek(datum, teplota);
 	}
 }

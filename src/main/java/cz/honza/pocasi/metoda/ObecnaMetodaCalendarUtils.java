@@ -5,14 +5,14 @@ import cz.honza.pocasi.kalendar.Utils;
 
 public class ObecnaMetodaCalendarUtils {
 	public static int calculateYearStart(Radek historickeDato, Radek zadani, int extraDays) {
-		if (zadani.mesic > 1) return historickeDato.rok;
-		if (zadani.mesic == 1 && zadani.den > extraDays) return historickeDato.rok;
+		if (zadani.datum.getMonthValue() > 1) return historickeDato.datum.getYear();
+		if (zadani.datum.getMonthValue() == 1 && zadani.datum.getDayOfMonth() > extraDays) return historickeDato.datum.getYear();
 		throw new RuntimeException("TODO");
 	}
 	
 	public static int calculateYearEnd(Radek historickeDato, Radek zadani, int extraDays) {
-		if (zadani.mesic < 12) return historickeDato.rok;
-		if (zadani.mesic == 12 && zadani.den < 32 - extraDays) return historickeDato.rok;
+		if (zadani.datum.getMonthValue() < 12) return historickeDato.datum.getYear();
+		if (zadani.datum.getMonthValue() == 12 && zadani.datum.getDayOfMonth() < 32 - extraDays) return historickeDato.datum.getYear();
 		throw new RuntimeException("TODO");
 	}
 	

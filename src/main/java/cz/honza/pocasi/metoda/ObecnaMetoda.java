@@ -41,7 +41,7 @@ public abstract class ObecnaMetoda implements Metoda {
 	private static List<Bod2D> regresniBody(List<Radek> teploty) {
 		return teploty.stream()
 				.map(rad -> 
-					new Bod2D(Utils.dayIndexInYear(rad.rok, rad.mesic, rad.den), rad.teplota))
+					new Bod2D(Utils.dayIndexInYear(rad.datum), rad.teplota))
 				.collect(Collectors.toList());
 		
 	}
@@ -57,10 +57,10 @@ public abstract class ObecnaMetoda implements Metoda {
 	
 	protected void prepoctiDataNaDen(List<Radek> historickaData, Radek zadani) {
 		Polynom p = polynomRoku(historickaData);
-		double denZadani = Utils.dayIndexInYear(zadani.rok, zadani.mesic, zadani.den);
+		double denZadani = Utils.dayIndexInYear(zadani.datum);
 		double teplotaDne = p.f(denZadani);
 		for (Radek radek : historickaData) {
-			double denCoMenim = Utils.dayIndexInYear(radek.rok, radek.mesic, radek.den);	
+			double denCoMenim = Utils.dayIndexInYear(radek.datum);	
 	        radek.teplota = radek.teplota + teplotaDne - p.f(denCoMenim);
 		}
 	}

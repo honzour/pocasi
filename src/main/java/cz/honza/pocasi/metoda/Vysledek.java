@@ -21,7 +21,7 @@ public class Vysledek {
 
 
 	public String toString() {
-		return "Metoda " + jmeno + " " + co.den + "." + co.mesic + "." + co.rok + " teplota " + co.teplota + "\n" +
+		return "Metoda " + jmeno + " " + co.datum.getDayOfMonth() + "." + co.datum.getMonthValue() + "." + co.datum.getYear() + " teplota " + co.teplota + "\n" +
 				"kurzLt " + kurzLt + "\n" +
 				"kurzGe " + kurzGe +
 				(extraInfo == null ? "" : "\n" + extraInfo) +
