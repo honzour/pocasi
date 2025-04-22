@@ -28,7 +28,7 @@ public class ObecnaMetodaDataUtils {
 			return fromDay <= datumDay && datumDay <= toDay;
 		} else {
 			// Kolem silvestra
-			return !(toDay < datumDay && fromDay > toDay);
+			return datumDay >= fromDay || datumDay <= toDay;
 		}
 	}
 	

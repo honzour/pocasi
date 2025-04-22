@@ -16,7 +16,7 @@ class ObecnaMetodaDataUtilsTest {
 	void test() {
 		final List<Radek> vystup = ObecnaMetodaDataUtils.filtrujData(
 				Arrays.asList(
-						new Radek(2015, 31, 12, 0.1),
+						new Radek(2015, 12, 31, 0.1),
 						new Radek(2016, 1, 1, 0.1),
 						new Radek(2016, 2, 1, 0.1),
 						new Radek(2016, 12, 28, 0.1),
@@ -30,8 +30,7 @@ class ObecnaMetodaDataUtilsTest {
 						new Radek(2017, 1, 5, 0.1),
 						new Radek(2017, 1, 6, 0.1),
 						new Radek(2017, 1, 7, 0.1),
-						new Radek(2017, 1, 2, 0.1),
-						new Radek(2017, 19, 7, 0.1)
+						new Radek(2017, 7, 19, 0.1)
 						),
 				new Radek(2025, 1, 2, 0.1),
 				new ObecnaMetoda.Settings(4, 2016, 0));
