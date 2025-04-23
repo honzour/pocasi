@@ -6,12 +6,14 @@ import java.util.List;
 import cz.honza.pocasi.gui.GuiApplication;
 import cz.honza.pocasi.io.DataReader;
 import cz.honza.pocasi.io.Radek;
+import cz.honza.pocasi.matematika.Funkce;
 import cz.honza.pocasi.metoda.Drevacka;
 import cz.honza.pocasi.metoda.Kernelova;
 import cz.honza.pocasi.metoda.Momentova;
 import cz.honza.pocasi.metoda.Metoda;
 import cz.honza.pocasi.metoda.Normalni;
 import cz.honza.pocasi.metoda.ObecnaMetoda;
+import cz.honza.pocasi.metoda.Vysledek;
 
 public class Main {
 	
@@ -39,20 +41,23 @@ public class Main {
 			return;
 		}
 		
-		ObecnaMetoda.Settings settings = new ObecnaMetoda.Settings(EXTRA_DAYS, YEAR_START, GLOBAL_WARMING);
+		final ObecnaMetoda.Settings settings = new ObecnaMetoda.Settings(EXTRA_DAYS, YEAR_START, GLOBAL_WARMING);
 		
-		List<Metoda> metody = new ArrayList<Metoda>();
+		final List<Metoda> metody = new ArrayList<Metoda>();
 		metody.add(new Drevacka(settings));
 		metody.add(new Normalni(settings));
 		metody.add(new Momentova(settings));
 		metody.add(new Kernelova(settings));
 		
-		metody.forEach(
-			m -> System.out.println(m.spocitej(new Radek(ROK, MESIC, DEN, TEPLOTA), data).toString())
-		);
+		Funkce f = null;
+		for (Metoda m : metody) {
+			Vysledek v = m.spocitej(new Radek(ROK, MESIC, DEN, TEPLOTA), data);
+			System.out.println(v.toString());
+			f = v.funkceHustoty;
+		}
 		
 		if (SHOW_GUI) {
-			GuiApplication.start();
+			GuiApplication.start(f);
 		}
 	}
 }

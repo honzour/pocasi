@@ -13,13 +13,13 @@ public class Kernelova extends ObecnaMetoda {
 
 	@Override
 	public Vysledek spocitejSUpravenymiDaty(Radek zadani, List<Double> historickaData) {
-		final double pasmo = 3.0;
+		final double pasmo = 2.0;
 		final Funkce hustota = new Hustota(pasmo, historickaData);
 		
 		double pLt = Integral.urcityIntegral(hustota, zadani.teplota - 50, zadani.teplota, 1/100.0);
 		double pGt = 1 - pLt; 
 
-		return new Vysledek("Kernelová", zadani, 1 / pLt, 1/ pGt, "Šíře pásma = " + pasmo + " F");
+		return new Vysledek("Kernelová", zadani, 1 / pLt, 1/ pGt, "Šíře pásma = " + pasmo + " F", hustota);
 	}
 	
 	private static double jadrovaFunkce(double u) {

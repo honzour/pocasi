@@ -1,6 +1,7 @@
 package cz.honza.pocasi.metoda;
 
 import cz.honza.pocasi.io.Radek;
+import cz.honza.pocasi.matematika.Funkce;
 
 public class Vysledek {
 	public String jmeno;
@@ -8,15 +9,17 @@ public class Vysledek {
 	public double kurzLt;
 	public double kurzGe;
 	public String extraInfo;
+	public Funkce funkceHustoty;
 	
 	
-	public Vysledek(String jmeno, Radek co, double kurzLt, double kurzGe, String extraInfo) {
+	public Vysledek(String jmeno, Radek co, double kurzLt, double kurzGe, String extraInfo, Funkce funkceHustoty) {
 		super();
 		this.jmeno = jmeno;
 		this.co = co;
 		this.kurzLt = kurzLt;
 		this.kurzGe = kurzGe;
 		this.extraInfo = extraInfo;
+		this.funkceHustoty = funkceHustoty;
 	}
 
 

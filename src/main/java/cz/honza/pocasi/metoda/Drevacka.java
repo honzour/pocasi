@@ -23,7 +23,7 @@ public class Drevacka extends ObecnaMetoda {
 	        	lt++;
 	        }
 	    }
-		return new Vysledek("Dřevácká", zadani, (lt + ge) / (double) lt, (lt + ge) / (double) ge, null);
+		return new Vysledek("Dřevácká", zadani, (lt + ge) / (double) lt, (lt + ge) / (double) ge, null, null);
 	}
 
 }

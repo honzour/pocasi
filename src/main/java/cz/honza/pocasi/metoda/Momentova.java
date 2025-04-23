@@ -28,7 +28,7 @@ public class Momentova extends ObecnaMetoda {
 		double pGt = 1 - pLt; 
 		
 		return new Vysledek("Momentová - Edgeworth", zadani, 1 / pLt, 1/ pGt, "EX = " + E + "\nvar = " + VAR + 
-				"\nmu3 =" + mu3 + "\nmu4 = " + mu4);
+				"\nmu3 =" + mu3 + "\nmu4 = " + mu4, edgeworth);
 	}
 
 }
