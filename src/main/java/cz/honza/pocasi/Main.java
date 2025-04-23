@@ -2,6 +2,8 @@ package cz.honza.pocasi;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import cz.honza.pocasi.gui.GuiApplication;
 import cz.honza.pocasi.io.DataReader;
 import cz.honza.pocasi.io.Radek;
 import cz.honza.pocasi.metoda.Drevacka;
@@ -21,6 +23,8 @@ public class Main {
 	private static final int EXTRA_DAYS = 4;
 	private static final int YEAR_START = 2016;
 	private static final double GLOBAL_WARMING = 0.06;
+	
+	private static final boolean SHOW_GUI = true;
 	
 	public static void main(String[] args) {
 		if (args.length < 1) {
@@ -46,5 +50,9 @@ public class Main {
 		metody.forEach(
 			m -> System.out.println(m.spocitej(new Radek(ROK, MESIC, DEN, TEPLOTA), data).toString())
 		);
+		
+		if (SHOW_GUI) {
+			GuiApplication.start();
+		}
 	}
 }
