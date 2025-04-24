@@ -2,6 +2,7 @@ package cz.honza.pocasi.gui;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.util.List;
 
 import javax.swing.JPanel;
 
@@ -15,10 +16,10 @@ public class PanelFunkce extends JPanel {
 	private double toX;
 	private double fromY;
 	private double toY;
-	private Funkce f;
+	private List<Funkce> f;
 		
 	
-	public PanelFunkce(double fromX, double toX, double fromY, double toY, Funkce f) {
+	public PanelFunkce(double fromX, double toX, double fromY, double toY, List<Funkce> f) {
 		super();
 		this.fromX = fromX;
 		this.toX = toX;
@@ -34,16 +35,21 @@ public class PanelFunkce extends JPanel {
         
         Rectangle r = g.getClipBounds();
         
-        int oldj = 0;
+        for (Funkce hustota : f) {
+        	if (hustota == null) {
+        		continue;
+        	}
+        	int oldj = 0;
         
-        for (int i = 0; i < r.width; i++) {
-     	   double x = fromX + (toX - fromX) * i / r.width;
-     	   double y = f.f(x);
-     	   int j = (int)Math.round((r.height - 1) * (y - fromY) / (toY - fromY));
-     	   if (i > 0) {
-     		   g.drawLine(i - 1, r.height - oldj - 1, i, r.height - j - 1);
-     	   }
-     	   oldj = j;
+        	for (int i = 0; i < r.width; i++) {
+        		double x = fromX + (toX - fromX) * i / r.width;
+        		double y = hustota.f(x);
+        		int j = (int)Math.round((r.height - 1) * (y - fromY) / (toY - fromY));
+        		if (i > 0) {
+        			g.drawLine(i - 1, r.height - oldj - 1, i, r.height - j - 1);
+        		}
+        		oldj = j;
+        	}
         }
         
     }

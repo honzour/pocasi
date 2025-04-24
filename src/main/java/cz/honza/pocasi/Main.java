@@ -2,6 +2,7 @@ package cz.honza.pocasi;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import cz.honza.pocasi.gui.GuiApplication;
 import cz.honza.pocasi.io.DataReader;
@@ -19,8 +20,8 @@ public class Main {
 	
 	private static final double TEPLOTA = 20.8;
 	private static final int ROK = 2025;
-	private static final int MESIC = 5;
-	private static final int DEN = 15;
+	private static final int MESIC = 3;
+	private static final int DEN = 1;
 	
 	private static final int EXTRA_DAYS = 4;
 	private static final int YEAR_START = 2016;
@@ -49,15 +50,16 @@ public class Main {
 		metody.add(new Momentova(settings));
 		metody.add(new Kernelova(settings));
 		
-		Funkce f = null;
+		List<Funkce> f = new ArrayList<Funkce>();
 		for (Metoda m : metody) {
 			Vysledek v = m.spocitej(new Radek(ROK, MESIC, DEN, TEPLOTA), data);
 			System.out.println(v.toString());
-			f = v.funkceHustoty;
+			f.add(v.funkceHustoty);
 		}
 		
 		if (SHOW_GUI) {
-			GuiApplication.start(f);
+			List<Double> hd = data.stream().map(radek -> radek.teplota).collect(Collectors.toList());
+			GuiApplication.start(f, hd);
 		}
 	}
 }

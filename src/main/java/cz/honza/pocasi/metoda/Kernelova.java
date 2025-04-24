@@ -13,7 +13,7 @@ public class Kernelova extends ObecnaMetoda {
 
 	@Override
 	public Vysledek spocitejSUpravenymiDaty(Radek zadani, List<Double> historickaData) {
-		final double pasmo = 2.0;
+		final double pasmo = 1.5;
 		final Funkce hustota = new Hustota(pasmo, historickaData);
 		
 		double pLt = Integral.urcityIntegral(hustota, zadani.teplota - 50, zadani.teplota, 1/100.0);
