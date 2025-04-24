@@ -36,7 +36,26 @@ public class PanelFunkce extends JPanel {
         super.paintComponent(g);
         
         
-        final Rectangle r = g.getClipBounds();
+        vykresliMeritko(g);
+        vykresliFunkce(g);
+    }
+	
+	private void vykresliMeritko(Graphics g) {
+		final Rectangle r = g.getClipBounds();
+		int from = (int) fromX;
+        int to = (int) toX;
+        for (int i = from; i <= to; i++) {
+        	int x = (int)Math.round(((i - fromX) * r.width / (toX - fromX)));
+        	g.drawLine(x, 0, x, r.height / 50);
+        	if (i % 10 == 0) {
+        		String s = String.valueOf(i);
+        		g.drawChars(s.toCharArray(), 0, s.length(), x, r.height / 25);
+        	}
+        }
+	}
+	
+	private void vykresliFunkce(Graphics g) {
+		final Rectangle r = g.getClipBounds();
         int barva = 0;
         
         for (Funkce hustota : f) {
@@ -57,7 +76,6 @@ public class PanelFunkce extends JPanel {
         	}
         	barva = (barva + 1) % barvy.size();
         }
-        
-    }
+	}
 
 }
