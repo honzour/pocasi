@@ -1,7 +1,9 @@
 package cz.honza.pocasi.gui;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.JPanel;
@@ -17,7 +19,7 @@ public class PanelFunkce extends JPanel {
 	private double fromY;
 	private double toY;
 	private List<Funkce> f;
-		
+	private List<Color> barvy = Arrays.asList(Color.BLACK, Color.BLUE, Color.GREEN, Color.RED);	
 	
 	public PanelFunkce(double fromX, double toX, double fromY, double toY, List<Funkce> f) {
 		super();
@@ -33,12 +35,15 @@ public class PanelFunkce extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         
-        Rectangle r = g.getClipBounds();
+        
+        final Rectangle r = g.getClipBounds();
+        int barva = 0;
         
         for (Funkce hustota : f) {
         	if (hustota == null) {
         		continue;
         	}
+        	g.setColor(barvy.get(barva));
         	int oldj = 0;
         
         	for (int i = 0; i < r.width; i++) {
@@ -50,6 +55,7 @@ public class PanelFunkce extends JPanel {
         		}
         		oldj = j;
         	}
+        	barva = (barva + 1) % barvy.size();
         }
         
     }
