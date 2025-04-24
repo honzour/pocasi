@@ -18,9 +18,9 @@ import cz.honza.pocasi.metoda.Vysledek;
 
 public class Main {
 	
-	private static final double TEPLOTA = 20.8;
+	private static final double TEPLOTA = 19.5;
 	private static final int ROK = 2025;
-	private static final int MESIC = 3;
+	private static final int MESIC = 5;
 	private static final int DEN = 1;
 	
 	private static final int EXTRA_DAYS = 4;

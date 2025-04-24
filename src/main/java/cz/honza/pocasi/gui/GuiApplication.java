@@ -25,7 +25,7 @@ public class GuiApplication {
       final double min = historickaData.stream().min(Double::compareTo).get() - epsilon;
       final double max = historickaData.stream().max(Double::compareTo).get() + epsilon;
       
-      frame.add(new PanelFunkce(min, max, 0, 0.12, f));
+      frame.add(new PanelFunkce(min, max, 0, 0.15, f));
       frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
       frame.setVisible(true);
    }
