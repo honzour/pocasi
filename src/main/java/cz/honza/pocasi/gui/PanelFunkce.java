@@ -93,17 +93,14 @@ public class PanelFunkce extends JPanel {
 	private void vykresliMeritko(Graphics g) {
 		final Rectangle r = g.getClipBounds();
 		g.setColor(Color.LIGHT_GRAY);
-		int from = (int) fromX;
+		int from = (int) fromX + 1;
         int to = (int) toX;
         for (int i = from; i <= to; i++) {
         	int x = (int)Math.round(((i - fromX) * r.width / (toX - fromX)));
-        	if (i % 10 == 0) {
-        		g.drawLine(x, 0, x, r.height / 30);
-        		final String s = String.valueOf(i) + "°C";
-        		g.drawChars(s.toCharArray(), 0, s.length(), x, r.height / 25);
-        	} else {
-        		g.drawLine(x, 0, x, r.height / 50);
-        	}
+
+       		g.drawLine(x, 0, x, r.height / 30);
+       		final String s = String.valueOf(i) + "°C";
+       		g.drawChars(s.toCharArray(), 0, s.length(), x, r.height / 25);
         }
 	}
 	
