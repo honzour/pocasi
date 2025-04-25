@@ -13,13 +13,14 @@ import cz.honza.pocasi.metoda.Momentova;
 import cz.honza.pocasi.metoda.Metoda;
 import cz.honza.pocasi.metoda.Normalni;
 import cz.honza.pocasi.metoda.ObecnaMetoda;
+import cz.honza.pocasi.metoda.ObecnaMetodaDataUtils;
 import cz.honza.pocasi.metoda.Vysledek;
 
 public class Main {
 	
-	private static final double TEPLOTA = 1;
+	private static final double TEPLOTA = 19.5;
 	private static final int ROK = 2026;
-	private static final int MESIC = 1;
+	private static final int MESIC = 5;
 	private static final int DEN = 1;
 	
 	private static final int EXTRA_DAYS = 4;
@@ -42,7 +43,7 @@ public class Main {
 		}
 		
 		final ObecnaMetoda.Settings settings = new ObecnaMetoda.Settings(EXTRA_DAYS, YEAR_START, GLOBAL_WARMING);
-		
+		final Radek zadani = new Radek(ROK, MESIC, DEN, TEPLOTA);
 		final List<Metoda> metody = new ArrayList<Metoda>();
 		metody.add(new Drevacka(settings));
 		metody.add(new Normalni(settings));
@@ -51,14 +52,17 @@ public class Main {
 		
 		final List<Vysledek> vysledky = new ArrayList<Vysledek>();
 		for (Metoda m : metody) {
-			Vysledek v = m.spocitej(new Radek(ROK, MESIC, DEN, TEPLOTA), data);
+			Vysledek v = m.spocitej(zadani, data);
 			System.out.println(v);
 			vysledky.add(v);
 		}
 		
 		if (SHOW_GUI) {
-			List<Double> hd = data.stream().map(radek -> radek.teplota).collect(Collectors.toList());
-			GuiApplication.start(vysledky, hd);
+			final List<Radek> filrovanaData = ObecnaMetodaDataUtils.filtrujData(data, zadani, settings);
+			ObecnaMetodaDataUtils.otepliData(filrovanaData, zadani, settings);
+			
+			final List<Double> filtrovaneTeploty = filrovanaData.stream().map(radek -> radek.teplota).collect(Collectors.toList());
+			GuiApplication.start(vysledky, filtrovaneTeploty);
 		}
 	}
 }

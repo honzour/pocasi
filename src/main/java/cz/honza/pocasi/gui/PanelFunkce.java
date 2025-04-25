@@ -1,7 +1,6 @@
 package cz.honza.pocasi.gui;
 
 import java.awt.BasicStroke;
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -28,22 +27,24 @@ public class PanelFunkce extends JPanel {
 	private double fromY;
 	private double toY;
 	private List<Vysledek> vysledky;
+	private List<Double> historickaData;
+	
 	private List<Color> barvy = Arrays.asList(Color.WHITE, Color.GRAY, Color.GREEN, Color.ORANGE);	
 	
-	public PanelFunkce(double fromX, double toX, double fromY, double toY, List<Vysledek> vysledky) {
+	public PanelFunkce(double fromX, double toX, double fromY, double toY, List<Vysledek> vysledky, List<Double> historickaData) {
 		super();
 		this.fromX = fromX;
 		this.toX = toX;
 		this.fromY = fromY;
 		this.toY = toY;
 		this.vysledky = vysledky;
+		this.historickaData = historickaData;
 		
 		setBackground(Color.BLACK);
 		
 		int barva = 0;
 		add(Box.createRigidArea(new Dimension(0, 50)));
 		for (Vysledek vysledek : vysledky) {
-			
 			setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 			JLabel label = new JLabel(" " + vysledek.jmeno + ", kurs menší: " + Math.round(vysledek.kurzLt * 1000) / 1000.0 + ", kurs větší rovno: " + Math.round(vysledek.kurzGe * 1000) / 1000.0);
 			label.setForeground(barvy.get(barva % barvy.size()));
@@ -52,21 +53,27 @@ public class PanelFunkce extends JPanel {
 			add(Box.createRigidArea(new Dimension(0, 5)));
 			barva++;
 		}
-		
-        
+	}
 
+	protected void vykresliBody(Graphics g) {
+		final Rectangle r = g.getClipBounds();
+		g.setColor(Color.WHITE);
+		Graphics2D g2 = (Graphics2D) g;
+        g2.setStroke(new BasicStroke(1));
+		for (Double teplota : historickaData) {
+			int x = (int) Math.round((teplota - fromX) * r.width / (toX - fromX));
+			g.drawOval(x - 5, r.height - r.height / 50, 10, 10);
+		}
 	}
 	
-
-
 	@Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         
         vykresliMeritko(g);
         vykresliCaru(g);
-      
         vykresliFunkce(g);
+        vykresliBody(g);
     }
 	
 	private void vykresliCaru(Graphics g) {
@@ -85,6 +92,7 @@ public class PanelFunkce extends JPanel {
 	
 	private void vykresliMeritko(Graphics g) {
 		final Rectangle r = g.getClipBounds();
+		g.setColor(Color.LIGHT_GRAY);
 		int from = (int) fromX;
         int to = (int) toX;
         for (int i = from; i <= to; i++) {
@@ -96,7 +104,6 @@ public class PanelFunkce extends JPanel {
         	} else {
         		g.drawLine(x, 0, x, r.height / 50);
         	}
-        	
         }
 	}
 	
