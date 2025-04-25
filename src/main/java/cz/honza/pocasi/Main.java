@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 import cz.honza.pocasi.gui.GuiApplication;
 import cz.honza.pocasi.io.DataReader;
 import cz.honza.pocasi.io.Radek;
-import cz.honza.pocasi.matematika.Funkce;
 import cz.honza.pocasi.metoda.Drevacka;
 import cz.honza.pocasi.metoda.Kernelova;
 import cz.honza.pocasi.metoda.Momentova;
@@ -18,9 +17,9 @@ import cz.honza.pocasi.metoda.Vysledek;
 
 public class Main {
 	
-	private static final double TEPLOTA = 19.5;
-	private static final int ROK = 2025;
-	private static final int MESIC = 5;
+	private static final double TEPLOTA = 1;
+	private static final int ROK = 2026;
+	private static final int MESIC = 1;
 	private static final int DEN = 1;
 	
 	private static final int EXTRA_DAYS = 4;
@@ -50,16 +49,16 @@ public class Main {
 		metody.add(new Momentova(settings));
 		metody.add(new Kernelova(settings));
 		
-		List<Funkce> f = new ArrayList<Funkce>();
+		final List<Vysledek> vysledky = new ArrayList<Vysledek>();
 		for (Metoda m : metody) {
 			Vysledek v = m.spocitej(new Radek(ROK, MESIC, DEN, TEPLOTA), data);
-			System.out.println(v.toString());
-			f.add(v.funkceHustoty);
+			System.out.println(v);
+			vysledky.add(v);
 		}
 		
 		if (SHOW_GUI) {
 			List<Double> hd = data.stream().map(radek -> radek.teplota).collect(Collectors.toList());
-			GuiApplication.start(f, hd);
+			GuiApplication.start(vysledky, hd);
 		}
 	}
 }
