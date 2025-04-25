@@ -58,11 +58,10 @@ public class Main {
 		}
 		
 		if (SHOW_GUI) {
-			final List<Radek> filrovanaData = ObecnaMetodaDataUtils.filtrujData(data, zadani, settings);
-			ObecnaMetodaDataUtils.otepliData(filrovanaData, zadani, settings);
+			final List<Radek> upravenaData = ObecnaMetodaDataUtils.upravData(data, zadani, settings);
 			
-			final List<Double> filtrovaneTeploty = filrovanaData.stream().map(radek -> radek.teplota).collect(Collectors.toList());
-			GuiApplication.start(vysledky, filtrovaneTeploty);
+			final List<Double> upraveneTeploty = upravenaData.stream().map(radek -> radek.teplota).collect(Collectors.toList());
+			GuiApplication.start(vysledky, upraveneTeploty);
 		}
 	}
 }

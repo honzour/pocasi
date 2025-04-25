@@ -5,6 +5,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import cz.honza.pocasi.io.Radek;
+import cz.honza.pocasi.kalendar.Utils;
+import cz.honza.pocasi.matematika.Bod2D;
+import cz.honza.pocasi.matematika.Polynom;
+import cz.honza.pocasi.matematika.PolynomialRegressionNoLib;
 import cz.honza.pocasi.metoda.ObecnaMetoda.Settings;
 
 public class ObecnaMetodaDataUtils {
@@ -17,6 +21,42 @@ public class ObecnaMetodaDataUtils {
 
 	public static List<Radek> filtrujData(List<Radek> historickaData, Radek zadani, Settings settings) {
 		return historickaData.stream().filter(radek -> acceptRadek(radek, zadani, settings)).collect(Collectors.toList());
+	}
+	
+	public static List<Radek> kopiruj(List<Radek> historickaData) {
+		return historickaData.stream().map(r -> r.copy()).collect(Collectors.toList());
+	}
+	
+	public static void prepoctiDataNaDen(List<Radek> historickaData, Radek zadani) {
+		Polynom p = polynomRoku(historickaData);
+		double denZadani = Utils.dayIndexInYear(zadani.datum);
+		double teplotaDne = p.f(denZadani);
+		for (Radek radek : historickaData) {
+			double denCoMenim = Utils.dayIndexInYear(radek.datum);	
+	        radek.teplota = radek.teplota + teplotaDne - p.f(denCoMenim);
+		}
+	}
+	
+	private static List<Bod2D> regresniBody(List<Radek> teploty) {
+		return teploty.stream()
+				.map(rad -> 
+					new Bod2D(Utils.dayIndexInYear(rad.datum), rad.teplota))
+				.collect(Collectors.toList());
+		
+	}
+	
+	private static Polynom polynomRoku(List<Radek> teploty) {
+		return PolynomialRegressionNoLib.fitPolynomial(regresniBody(teploty), 36);
+		
+	}
+	
+	
+	public static List<Radek> upravData(List<Radek> historickaData, Radek zadani, Settings settings) {
+		historickaData = kopiruj(historickaData);
+		prepoctiDataNaDen(historickaData, zadani);
+		historickaData = filtrujData(historickaData, zadani, settings);
+		otepliData(historickaData, zadani, settings);
+		return historickaData;
 	}
 	
 	private static boolean isBetweenDaysMonths(LocalDate from, LocalDate to, LocalDate datum) {
