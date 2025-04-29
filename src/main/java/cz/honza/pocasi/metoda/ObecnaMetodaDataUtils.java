@@ -28,7 +28,7 @@ public class ObecnaMetodaDataUtils {
 	}
 	
 	public static void prepoctiDataNaDen(List<Radek> historickaData, Radek zadani) {
-		Polynom p = polynomRoku(historickaData);
+		final Polynom p = polynomRoku(historickaData);
 		double denZadani = Utils.dayIndexInYear(zadani.datum);
 		double teplotaDne = p.f(denZadani);
 		for (Radek radek : historickaData) {
@@ -45,11 +45,10 @@ public class ObecnaMetodaDataUtils {
 		
 	}
 	
-	private static Polynom polynomRoku(List<Radek> teploty) {
+	public static Polynom polynomRoku(List<Radek> teploty) {
 		return PolynomialRegressionNoLib.fitPolynomial(regresniBody(teploty), 36);
 		
 	}
-	
 	
 	public static List<Radek> upravData(List<Radek> historickaData, Radek zadani, Settings settings) {
 		historickaData = kopiruj(historickaData);

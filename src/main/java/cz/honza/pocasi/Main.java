@@ -61,7 +61,7 @@ public class Main {
 			final List<Radek> upravenaData = ObecnaMetodaDataUtils.upravData(data, zadani, settings);
 			
 			final List<Double> upraveneTeploty = upravenaData.stream().map(radek -> radek.teplota).collect(Collectors.toList());
-			GuiApplication.start(vysledky, upraveneTeploty);
+			GuiApplication.start(vysledky, upraveneTeploty, data);
 		}
 	}
 }

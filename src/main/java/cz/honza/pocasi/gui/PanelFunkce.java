@@ -104,8 +104,22 @@ public class PanelFunkce extends JPanel {
         }
 	}
 	
-	private void vykresliFunkce(Graphics g) {
+	protected void kresliJednuFunkci(Graphics g, Funkce hustota) {
 		final Rectangle r = g.getClipBounds();
+		int oldj = 0;
+        
+    	for (int i = 0; i < r.width; i++) {
+    		double x = fromX + (toX - fromX) * i / r.width;
+    		double y = hustota.f(x);
+    		int j = (int)Math.round((r.height - 1) * (y - fromY) / (toY - fromY));
+    		if (i > 0) {
+    			g.drawLine(i - 1, r.height - oldj - 1, i, r.height - j - 1);
+    		}
+    		oldj = j;
+    	}
+	}
+	
+	private void vykresliFunkce(Graphics g) {
         int barva = 0;
         
         Graphics2D g2 = (Graphics2D) g;
@@ -117,17 +131,7 @@ public class PanelFunkce extends JPanel {
         		continue;
         	}
         	g.setColor(barvy.get(barva));
-        	int oldj = 0;
-        
-        	for (int i = 0; i < r.width; i++) {
-        		double x = fromX + (toX - fromX) * i / r.width;
-        		double y = hustota.f(x);
-        		int j = (int)Math.round((r.height - 1) * (y - fromY) / (toY - fromY));
-        		if (i > 0) {
-        			g.drawLine(i - 1, r.height - oldj - 1, i, r.height - j - 1);
-        		}
-        		oldj = j;
-        	}
+        	kresliJednuFunkci(g, hustota);
         	barva = (barva + 1) % barvy.size();
         }
 	}
