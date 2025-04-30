@@ -20,5 +20,6 @@ public class GuiApplication {
    private static void createAndShowGUI(List<Vysledek> vysledky, List<Double> historickaDataUpravena, List<Radek> historickaData) {
 	   new FrameFunkce(vysledky, historickaDataUpravena);
 	   new FrameRocniTeploty(historickaData);
+	   new FrameOteplovani(historickaData);
    }
 }
