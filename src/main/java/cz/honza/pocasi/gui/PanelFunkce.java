@@ -13,30 +13,22 @@ import java.util.List;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 import cz.honza.pocasi.matematika.Funkce;
 import cz.honza.pocasi.metoda.Vysledek;
 
-public class PanelFunkce extends JPanel {
+public class PanelFunkce extends PanelSGrafem {
 
 	private static final long serialVersionUID = 7562798847917999553L;
-	
-	private double fromX;
-	private double toX;
-	private double fromY;
-	private double toY;
+		
 	private List<Vysledek> vysledky;
 	private List<Double> historickaData;
 	
 	private List<Color> barvy = Arrays.asList(Color.WHITE, Color.GRAY, Color.GREEN, Color.ORANGE);	
 	
 	public PanelFunkce(double fromX, double toX, double fromY, double toY, List<Vysledek> vysledky, List<Double> historickaData) {
-		super();
-		this.fromX = fromX;
-		this.toX = toX;
-		this.fromY = fromY;
-		this.toY = toY;
+		super(fromX, toX, fromY, toY);
+		
 		this.vysledky = vysledky;
 		this.historickaData = historickaData;
 		
@@ -61,7 +53,7 @@ public class PanelFunkce extends JPanel {
 		Graphics2D g2 = (Graphics2D) g;
         g2.setStroke(new BasicStroke(1));
 		for (Double teplota : historickaData) {
-			int x = (int) Math.round((teplota - fromX) * r.width / (toX - fromX));
+			int x = scaleToScreanX(teplota, r.width);
 			g.drawOval(x - 5, r.height - r.height / 50, 10, 10);
 		}
 	}
@@ -83,7 +75,7 @@ public class PanelFunkce extends JPanel {
 
 		final Rectangle r = g.getClipBounds();
 		final double teplota = vysledky.get(0).co.teplota;
-		int x = (int) Math.round((teplota - fromX) * r.width / (toX - fromX));
+		int x = scaleToScreanX(teplota, r.width);
 		
 		g.drawLine(x, 0, x, r.height - 1);
 		final String s = String.valueOf(teplota) + "°C";
@@ -96,27 +88,11 @@ public class PanelFunkce extends JPanel {
 		int from = (int) fromX + 1;
         int to = (int) toX;
         for (int i = from; i <= to; i++) {
-        	int x = (int)Math.round(((i - fromX) * r.width / (toX - fromX)));
-
+        	int x = scaleToScreanX((double)i, r.width);
        		g.drawLine(x, 0, x, r.height / 30);
        		final String s = String.valueOf(i) + "°C";
        		g.drawChars(s.toCharArray(), 0, s.length(), x, r.height / 25);
         }
-	}
-	
-	protected void kresliJednuFunkci(Graphics g, Funkce hustota) {
-		final Rectangle r = g.getClipBounds();
-		int oldj = 0;
-        
-    	for (int i = 0; i < r.width; i++) {
-    		double x = fromX + (toX - fromX) * i / r.width;
-    		double y = hustota.f(x);
-    		int j = (int)Math.round((r.height - 1) * (y - fromY) / (toY - fromY));
-    		if (i > 0) {
-    			g.drawLine(i - 1, r.height - oldj - 1, i, r.height - j - 1);
-    		}
-    		oldj = j;
-    	}
 	}
 	
 	private void vykresliFunkce(Graphics g) {
