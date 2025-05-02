@@ -11,7 +11,7 @@ public class FrameOteplovani extends JFrame {
 	private static final long serialVersionUID = -545629501905849295L;
 	
 	public FrameOteplovani(List<Radek> historickaData) {
-		super("Lokální oteplování maxim na Ruzyni, regrese polynomem stupně 20");
+		super("Lokální oteplování ročních průměrů denních maxim na Ruzyni, regrese polynomem stupně 20");
 		
 		add(new PanelOteplovani(historickaData));
 		setSize(200, 200);

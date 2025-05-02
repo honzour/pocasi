@@ -48,13 +48,35 @@ public class PanelOteplovani extends PanelSGrafem {
 			);
 
 	}
+	
+	protected void kresliCaryTeplot(Graphics g) {
+		final Rectangle r = g.getClipBounds();
+		g.setColor(Color.BLACK);
+		for (double y = 10; y < 17; y++) {
+			int j = scaleToScreanY(y, r.height);
+			g.drawLine(0, j, r.width - 1, j);
+			final String text = String.valueOf(y) + "°C";
+			g.drawChars(text.toCharArray(), 0, text.length(), 10, j - 10);
+		}
+	}
+	
+	protected void kresliCaryLet(Graphics g) {
+		final Rectangle r = g.getClipBounds();
+		g.setColor(Color.BLACK);
+		for (int rok = 1970; rok < 2030; rok += 10) {
+			int i = scaleToScreanX(rok, r.width);
+			g.drawLine(i, 0, i, r.height - 1);
+			final String text = String.valueOf(rok);
+			g.drawChars(text.toCharArray(), 0, text.length(), i + 5, 15);
+		}
+	}
 
 	
 	protected void kresliData(Graphics g) {
 		final Rectangle r = g.getClipBounds();
 		
 		for (RokTeplota rt: teploty) {
-			kolecko(rt.rok, rt.teplota, g, r, String.valueOf(rt.rok).substring(2) + " " + String.valueOf(Math.round(rt.teplota * 10) / 10.0));
+			kolecko(rt.rok, rt.teplota, g, r, String.valueOf(Math.round(rt.teplota * 100) / 100.0));
 		}
 	}
 	
@@ -62,6 +84,8 @@ public class PanelOteplovani extends PanelSGrafem {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         kresliData(g);
+        kresliCaryTeplot(g);
+        kresliCaryLet(g);
         final Graphics2D g2 = (Graphics2D) g;
         g2.setStroke(new BasicStroke(5));
         g.setColor(Color.RED);
