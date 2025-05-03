@@ -6,12 +6,10 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 import cz.honza.pocasi.io.Radek;
-import cz.honza.pocasi.matematika.Bod2D;
 import cz.honza.pocasi.matematika.Funkce;
-import cz.honza.pocasi.matematika.PolynomialRegressionNoLib;
+import cz.honza.pocasi.metoda.ObecnaMetodaDataUtils;
+import cz.honza.pocasi.metoda.ObecnaMetodaDataUtils.RokTeplota;
 
 
 public class PanelOteplovani extends PanelSGrafem {
@@ -20,33 +18,13 @@ public class PanelOteplovani extends PanelSGrafem {
 	final List<RokTeplota> teploty;
 	final Funkce polynomMaxim;
 	
-	private class RokTeplota {
-		
-		public RokTeplota(int rok, double teplota) {
-			super();
-			this.rok = rok;
-			this.teplota = teplota;
-		}
-		public int rok;
-		public double teplota;
-	}
+
 	
 	public PanelOteplovani(List<Radek> historickaData) {
 		super(1960, 2026, 9, 17);
-		final Map<Integer, List<Radek>> roky = historickaData.stream().collect(Collectors.groupingBy(r -> r.datum.getYear()));
-		teploty = roky.keySet().stream().sorted().map(
-				rok ->
-					new RokTeplota(
-						rok,
-						roky.get(rok).stream().mapToDouble(radek -> radek.teplota).average().orElse(0)
-					)
-				).collect(Collectors.toList());
-		
-		polynomMaxim = PolynomialRegressionNoLib.fitPolynomial(
-				teploty.stream().map(rt -> new Bod2D(rt.rok, rt.teplota)).collect(Collectors.toList()),
-				20
-			);
 
+		teploty = ObecnaMetodaDataUtils.spocitejRocniPrumery(historickaData);
+		polynomMaxim = ObecnaMetodaDataUtils.spocitejPolynomMaxim(teploty, 20); 
 	}
 	
 	protected void kresliCaryTeplot(Graphics g) {

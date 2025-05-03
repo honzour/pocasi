@@ -1,21 +1,35 @@
 package cz.honza.pocasi.metoda;
 
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import cz.honza.pocasi.io.Radek;
 import cz.honza.pocasi.kalendar.Utils;
 import cz.honza.pocasi.matematika.Bod2D;
+import cz.honza.pocasi.matematika.FunkceSDerivaci;
 import cz.honza.pocasi.matematika.Polynom;
 import cz.honza.pocasi.matematika.PolynomialRegressionNoLib;
 import cz.honza.pocasi.metoda.ObecnaMetoda.Settings;
 
 public class ObecnaMetodaDataUtils {
 	
-	public static void otepliData(List<Radek> historickaData, Radek zadani, Settings settings) {
+	public static class RokTeplota {
+		
+		public RokTeplota(int rok, double teplota) {
+			super();
+			this.rok = rok;
+			this.teplota = teplota;
+		}
+		public int rok;
+		public double teplota;
+	}
+	
+	public static void otepliData(List<Radek> historickaData, Radek zadani, double oteplovani) {
 		for (Radek radek : historickaData) {
-	        radek.teplota = radek.teplota + settings.globalWarming * (zadani.datum.getYear() - radek.datum.getYear());
+	        radek.teplota = radek.teplota + oteplovani * (zadani.datum.getYear() - radek.datum.getYear());
 		}
 	}
 
@@ -25,6 +39,31 @@ public class ObecnaMetodaDataUtils {
 	
 	public static List<Radek> kopiruj(List<Radek> historickaData) {
 		return historickaData.stream().map(r -> r.copy()).collect(Collectors.toList());
+	}
+	
+	public static List<RokTeplota> spocitejRocniPrumery(List<Radek> historickaData) {
+		final Map<Integer, List<Radek>> roky = historickaData.stream().collect(Collectors.groupingBy(r -> r.datum.getYear()));
+		return roky.keySet().stream().sorted().map(
+				rok ->
+					new RokTeplota(
+						rok,
+						roky.get(rok).stream().mapToDouble(radek -> radek.teplota).average().orElse(0)
+					)
+				).collect(Collectors.toList());
+	}
+	
+	public static Polynom spocitejPolynomMaxim(List<RokTeplota> teploty, int stupen) {
+		return PolynomialRegressionNoLib.fitPolynomial(
+				teploty.stream().map(rt -> new Bod2D(rt.rok, rt.teplota)).collect(Collectors.toList()),
+				stupen
+			);
+	}
+	
+	public static double spocitejLokaliOteplovani(List<Radek> historickaData) {
+		final List<RokTeplota> prumery = spocitejRocniPrumery(historickaData);
+		final FunkceSDerivaci polynomMaxim = spocitejPolynomMaxim(prumery, 20);
+		final int posledniRok = historickaData.stream().map(radek -> radek.datum.getYear()).max(Comparator.naturalOrder()).orElse(0);
+		return polynomMaxim.derivace(posledniRok); 
 	}
 	
 	public static void prepoctiDataNaDen(List<Radek> historickaData, Radek zadani) {
@@ -52,9 +91,10 @@ public class ObecnaMetodaDataUtils {
 	
 	public static List<Radek> upravData(List<Radek> historickaData, Radek zadani, Settings settings) {
 		historickaData = kopiruj(historickaData);
+		double oteplovani = spocitejLokaliOteplovani(historickaData);
 		prepoctiDataNaDen(historickaData, zadani);
 		historickaData = filtrujData(historickaData, zadani, settings);
-		otepliData(historickaData, zadani, settings);
+		otepliData(historickaData, zadani, oteplovani);
 		return historickaData;
 	}
 	
