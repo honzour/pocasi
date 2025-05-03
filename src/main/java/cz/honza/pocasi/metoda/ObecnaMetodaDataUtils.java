@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import cz.honza.pocasi.io.Radek;
 import cz.honza.pocasi.kalendar.Utils;
 import cz.honza.pocasi.matematika.Bod2D;
+import cz.honza.pocasi.matematika.Funkce;
 import cz.honza.pocasi.matematika.FunkceSDerivaci;
 import cz.honza.pocasi.matematika.Polynom;
 import cz.honza.pocasi.matematika.PolynomialRegressionNoLib;
@@ -27,9 +28,9 @@ public class ObecnaMetodaDataUtils {
 		public double teplota;
 	}
 	
-	public static void otepliData(List<Radek> historickaData, Radek zadani, double oteplovani) {
+	public static void otepliData(List<Radek> historickaData, Funkce oteplovani) {
 		for (Radek radek : historickaData) {
-	        radek.teplota = radek.teplota + oteplovani * (zadani.datum.getYear() - radek.datum.getYear());
+	        radek.teplota = radek.teplota + oteplovani.f(radek.datum.getYear() + radek.datum.getDayOfYear() / 365.15);
 		}
 	}
 
@@ -59,11 +60,26 @@ public class ObecnaMetodaDataUtils {
 			);
 	}
 	
-	public static double spocitejLokaliOteplovani(List<Radek> historickaData) {
+	public static Funkce spocitejLokaliOteplovani(List<Radek> historickaData, Radek zadani) {
 		final List<RokTeplota> prumery = spocitejRocniPrumery(historickaData);
 		final FunkceSDerivaci polynomMaxim = spocitejPolynomMaxim(prumery, 20);
 		final int posledniRok = historickaData.stream().map(radek -> radek.datum.getYear()).max(Comparator.naturalOrder()).orElse(0);
-		return polynomMaxim.derivace(posledniRok); 
+		final double linearniOteplovani = polynomMaxim.derivace(posledniRok);
+		final double rokZadadani = zadani.datum.getYear() + zadani.datum.getDayOfYear() / 365.15 - 0.5; 
+		
+		final Funkce polynomialniOteplovani = new Funkce() {
+			
+			@Override
+			public double f(double rok) {
+				if (rokZadadani < posledniRok) {
+					return polynomMaxim.f(posledniRok) - polynomMaxim.f(rok);
+				}
+				return polynomMaxim.f(posledniRok) - polynomMaxim.f(rok) + linearniOteplovani * (rokZadadani - posledniRok); 
+
+			}
+		}; 
+		
+		return polynomialniOteplovani;
 	}
 	
 	public static void prepoctiDataNaDen(List<Radek> historickaData, Radek zadani) {
@@ -91,10 +107,10 @@ public class ObecnaMetodaDataUtils {
 	
 	public static List<Radek> upravData(List<Radek> historickaData, Radek zadani, Settings settings) {
 		historickaData = kopiruj(historickaData);
-		double oteplovani = spocitejLokaliOteplovani(historickaData);
+		final Funkce oteplovani = spocitejLokaliOteplovani(historickaData, zadani);
 		prepoctiDataNaDen(historickaData, zadani);
 		historickaData = filtrujData(historickaData, zadani, settings);
-		otepliData(historickaData, zadani, oteplovani);
+		otepliData(historickaData, oteplovani);
 		return historickaData;
 	}
 	
