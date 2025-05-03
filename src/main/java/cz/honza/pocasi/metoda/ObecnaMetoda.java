@@ -10,12 +10,10 @@ public abstract class ObecnaMetoda implements Metoda {
 	public static class Settings {
 		public int extraDays;
 		public int yearStart;
-		public double globalWarming;
 
-		public Settings(int extraDays, int yearStart, double globalWarming) {
+		public Settings(int extraDays, int yearStart) {
 			this.extraDays = extraDays;
 			this.yearStart = yearStart;
-			this.globalWarming = globalWarming;
 		}
 	}
 	

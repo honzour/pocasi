@@ -25,7 +25,6 @@ public class Main {
 	
 	private static final int EXTRA_DAYS = 4;
 	private static final int YEAR_START = 2016;
-	private static final double GLOBAL_WARMING = 0.06;
 	
 	private static final boolean SHOW_GUI = true;
 	
@@ -42,7 +41,7 @@ public class Main {
 			return;
 		}
 		
-		final ObecnaMetoda.Settings settings = new ObecnaMetoda.Settings(EXTRA_DAYS, YEAR_START, GLOBAL_WARMING);
+		final ObecnaMetoda.Settings settings = new ObecnaMetoda.Settings(EXTRA_DAYS, YEAR_START);
 		final Radek zadani = new Radek(ROK, MESIC, DEN, TEPLOTA);
 		final List<Metoda> metody = new ArrayList<Metoda>();
 		metody.add(new Drevacka(settings));

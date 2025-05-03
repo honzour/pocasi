@@ -33,7 +33,7 @@ class ObecnaMetodaDataUtilsTest {
 						new Radek(2017, 7, 19, 0.1)
 						),
 				new Radek(2025, 1, 2, 0.1),
-				new ObecnaMetoda.Settings(4, 2016, 0));
+				new ObecnaMetoda.Settings(4, 2016));
 		Assertions.assertNotNull(vystup);
 		Assertions.assertEquals(10, vystup.size());
 	}
@@ -43,7 +43,7 @@ class ObecnaMetodaDataUtilsTest {
 		boolean accepted = ObecnaMetodaDataUtils.acceptRadek(
 				new Radek(2016, 12, 31, 0.1),
 				new Radek(2025, 1, 2, 0.1),
-				new ObecnaMetoda.Settings(4, 2016, 0)
+				new ObecnaMetoda.Settings(4, 2016)
 			);
 		Assert.assertTrue(accepted);
 	}
@@ -66,7 +66,7 @@ class ObecnaMetodaDataUtilsTest {
 						new Radek(2016, 8, 20, 0.1)
 						),
 				new Radek(2025, 8, 15, 28.1),
-				new ObecnaMetoda.Settings(4, 2016, 0));
+				new ObecnaMetoda.Settings(4, 2016));
 		Assertions.assertNotNull(vystup);
 		Assertions.assertEquals(9, vystup.size());
 	}
@@ -100,7 +100,7 @@ class ObecnaMetodaDataUtilsTest {
 						new Radek(2017, 3, 7, 0.1)
 						),
 				new Radek(2024, 2, 29, 0.1),
-				new ObecnaMetoda.Settings(4, 2016, 0));
+				new ObecnaMetoda.Settings(4, 2016));
 		Assertions.assertNotNull(vystup);
 		Assertions.assertEquals(18, vystup.size());
 	}
@@ -134,7 +134,7 @@ class ObecnaMetodaDataUtilsTest {
 						new Radek(2017, 3, 7, 0.1)
 						),
 				new Radek(2025, 2, 28, 0.1),
-				new ObecnaMetoda.Settings(4, 2016, 0));
+				new ObecnaMetoda.Settings(4, 2016));
 		Assertions.assertNotNull(vystup);
 		Assertions.assertEquals(18, vystup.size());
 	}
