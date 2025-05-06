@@ -58,7 +58,7 @@ public class Main {
 		
 		final List<String> vysledky = new ArrayList<String>();
 		for (Metoda m : metody) {
-			double penize = m.otestuj(data);
+			double penize = m.otestuj(data, 1.4);
 			vysledky.add(m.getClass().getSimpleName() + " " + penize);
 		}
 		vysledky.forEach(v -> System.out.println(v));

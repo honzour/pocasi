@@ -60,7 +60,7 @@ public abstract class ObecnaMetoda implements Metoda {
 		return spocitejSUpravenymiDaty(zadani, teploty);
 	}
 	
-	public double otestuj(List<Radek> historickaData) {
+	public double otestuj(List<Radek> historickaData, double kurz) {
 		double penize = 0;
 		int day = 0;
 		for (MonthDay md : zadavaciTeploty.keySet()) {
@@ -73,16 +73,16 @@ public abstract class ObecnaMetoda implements Metoda {
 			final Radek zadani = new Radek(LocalDate.of(checkYear, md.getMonth(), md.getDayOfMonth()), zadanaTeplota);
 			final Vysledek vysledek = spocitej(zadani, historickaData);
 			
-			if (vysledek.kurzGe < 1.84) {
+			if (vysledek.kurzGe < kurz) {
 				if (skutecnaTeplota >= zadanaTeplota) {
-					penize += 0.84;
+					penize += (kurz - 1);
 				} else {
 					penize -=1;
 				}
 			}
-			if (vysledek.kurzLt < 1.84) {
+			if (vysledek.kurzLt < kurz) {
 				if (skutecnaTeplota < zadanaTeplota) {
-					penize += 0.84;
+					penize += (kurz - 1);
 				} else {
 					penize -=1;
 				}
