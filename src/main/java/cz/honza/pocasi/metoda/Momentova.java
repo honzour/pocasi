@@ -14,6 +14,10 @@ public class Momentova extends ObecnaMetoda {
 	public Momentova(ObecnaMetoda.Settings settings) {
 		super(settings);
 	}
+	
+	public Momentova(List<Radek> historickaData, int extraDays, int trainingYears) {
+		super(historickaData, extraDays, trainingYears);
+	}
 
 	@Override
 	public Vysledek spocitejSUpravenymiDaty(Radek zadani, List<Double> historickaData) {

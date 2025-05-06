@@ -11,6 +11,10 @@ public class Normalni extends ObecnaMetoda {
 	public Normalni(ObecnaMetoda.Settings settings) {
 		super(settings);
 	}
+	
+	public Normalni(List<Radek> historickaData, int extraDays, int trainingYears) {
+		super(historickaData, extraDays, trainingYears);
+	}
 
 	@Override
 	public Vysledek spocitejSUpravenymiDaty(Radek zadani, List<Double> historickaData)  {

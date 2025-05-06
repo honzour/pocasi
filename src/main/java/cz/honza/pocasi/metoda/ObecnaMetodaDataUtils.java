@@ -130,6 +130,8 @@ public class ObecnaMetodaDataUtils {
 	public static boolean acceptRadek(Radek historickeDato, Radek zadani, Settings settings) {
 		// Úplně ignorujeme řádky před nakonfigurovaným rokem kvůli globálnímu oteplování 
         if (historickeDato.datum.getYear() < settings.yearStart) return false;
+     // Úplně ignorujeme řádky před nakonfigurovaným rokem kvůli globálnímu oteplování 
+        if (historickeDato.datum.getYear() > settings.yearEnd) return false;
         final LocalDate from = zadani.datum.minusDays(settings.extraDays);
         final LocalDate to = zadani.datum.plusDays(settings.extraDays);
         return isBetweenDaysMonths(from, to, historickeDato.datum);

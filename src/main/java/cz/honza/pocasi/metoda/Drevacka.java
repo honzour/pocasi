@@ -11,6 +11,10 @@ public class Drevacka extends ObecnaMetoda {
 		super(settings);
 	}
 	
+	public Drevacka(List<Radek> historickaData, int extraDays, int trainingYears) {
+		super(historickaData, extraDays, trainingYears);
+	}
+	
 	@Override
 	public Vysledek spocitejSUpravenymiDaty(Radek zadani, List<Double> historickaData) {
 		int lt = 0;
