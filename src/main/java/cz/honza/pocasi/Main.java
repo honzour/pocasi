@@ -18,7 +18,7 @@ import cz.honza.pocasi.metoda.Vysledek;
 
 public class Main {
 	
-	private static final double TEPLOTA = 25.8;
+	private static final double TEPLOTA = 26.3;
 	private static final int ROK = 2025;
 	private static final int MESIC = 6;
 	private static final int DEN = 15;
@@ -28,7 +28,7 @@ public class Main {
 	private static final int YEAR_END = 3000;
 	
 	private static final boolean SHOW_GUI = true;
-	private static final boolean TEST = true;
+	private static final boolean TEST = false;
 	
 	public static void main(String[] args) {
 		if (args.length < 1) {
@@ -36,7 +36,7 @@ public class Main {
 			return;
 		}
 		
-		final List<Radek> data = DataReader.read(args[0]);
+		final List<Radek> data = DataReader.read2(args[0]);
 		
 		if (data == null) {
 			System.out.println("Nedaří se naparsovat soubor");

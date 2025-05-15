@@ -33,5 +33,36 @@ public class DataReader {
 			return null;
 		}
 	}
+	
+	public static List<Radek> read2(String filename) {
+		
+		try {
+		
+			List<Radek> data = new ArrayList<Radek>();
+			final File file = new File(filename);
+			try (final BufferedReader br = new BufferedReader(new FileReader(file))) {
+				String s;
+				while ((s = br.readLine()) != null) {
+					String[] fields = s.split(",");
+					if (fields.length < 7) {
+						throw new IOException("Field " + s);
+					}
+					if (fields[0].equals("WSI")) {
+						continue;
+					}
+					String datum = fields[3];
+					datum = datum.split("T")[0];
+					final String teplota = fields[4];
+					fields = datum.split("-");
+					System.out.println(datum + " " + teplota);
+					final Radek radek = new Radek(Integer.parseInt(fields[0]), Integer.parseInt(fields[1]), Integer.parseInt(fields[2]), Double.parseDouble(teplota));
+					data.add(radek);
+				}
+			}
+			return data;
+		} catch (IOException e) {
+			return null;
+		}
+	}
 
 }
