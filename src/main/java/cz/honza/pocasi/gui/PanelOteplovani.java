@@ -21,7 +21,7 @@ public class PanelOteplovani extends PanelSGrafem {
 
 	
 	public PanelOteplovani(List<Radek> historickaData) {
-		super(1960, 2026, 9, 17);
+		super(1946, 2026, 9, 17);
 
 		teploty = ObecnaMetodaDataUtils.spocitejRocniPrumery(historickaData);
 		polynomMaxim = ObecnaMetodaDataUtils.spocitejPolynomMaxim(teploty, 20); 
@@ -41,7 +41,7 @@ public class PanelOteplovani extends PanelSGrafem {
 	protected void kresliCaryLet(Graphics g) {
 		final Rectangle r = g.getClipBounds();
 		g.setColor(Color.BLACK);
-		for (int rok = 1970; rok < 2030; rok += 10) {
+		for (int rok = 1950; rok < 2030; rok += 10) {
 			int i = scaleToScreanX(rok, r.width);
 			g.drawLine(i, 0, i, r.height - 1);
 			final String text = String.valueOf(rok);
