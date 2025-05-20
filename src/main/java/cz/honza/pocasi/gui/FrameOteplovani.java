@@ -13,7 +13,7 @@ public class FrameOteplovani extends JFrame {
 	public FrameOteplovani(List<Radek> historickaData) {
 		super("Lokální oteplování ročních průměrů denních maxim na Ruzyni, regrese polynomem stupně 20");
 		
-		add(new PanelOteplovani(historickaData));
+		add(new PanelLinearniOteplovani(historickaData));
 		setSize(200, 200);
 	    setVisible(true);
 	}

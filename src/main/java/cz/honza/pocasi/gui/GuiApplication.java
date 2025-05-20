@@ -21,5 +21,6 @@ public class GuiApplication {
 	   new FrameFunkce(vysledky, historickaDataUpravena);
 	   new FrameRocniTeploty(historickaData);
 	   new FrameOteplovani(historickaData);
+	   new FrameLinearniOteplovani(historickaData);
    }
 }

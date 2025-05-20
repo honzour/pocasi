@@ -20,7 +20,7 @@ public class Main {
 	
 	private static final double TEPLOTA = 26.3;
 	private static final int ROK = 2025;
-	private static final int MESIC = 6;
+	private static final int MESIC = 7;
 	private static final int DEN = 15;
 	
 	private static final int EXTRA_DAYS = 4;
