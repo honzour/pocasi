@@ -12,7 +12,7 @@ public class FrameLinearniOteplovani extends JFrame {
 	public FrameLinearniOteplovani(List<Radek> historickaData) {
 		super("Lokální oteplování ročních průměrů denních maxim na Ruzyni, lineární regrese");
 		
-		add(new PanelOteplovani(historickaData));
+		add(new PanelLinearniOteplovani(historickaData));
 		setSize(200, 200);
 	    setVisible(true);
 	}
